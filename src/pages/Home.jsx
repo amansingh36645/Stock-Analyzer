@@ -3,7 +3,7 @@ import React from "react";
 const Home = () => {
   return (
     <div>
-      <div className="bg-linear-65 from-blue-950  to-blue-400  flex justify-around ">
+      <div className="bg-linear-65 from-blue-950  to-blue-400  flex justify-around">
         {/* head area */}
         <div className=" flex flex-col gap-10 p-5">
           {/* head tag */}
@@ -88,8 +88,8 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="">
-          <div className="">
+        <div className="w-1/2 h-full lg:relative">
+          <div className=" lg:absolute">
             <img width={720} src="/home-img.png" alt="" />
           </div>
         </div>
@@ -97,7 +97,7 @@ const Home = () => {
       {/* home page second  */}
       <div className="">
         {/* vertical div 1 */}
-        <div className="text-center">
+        <div className="text-center p-5">
           <h1 className="text-3xl font-bold text-gray-600">
             Building Awesome Investing & Trading Platforms
           </h1>
@@ -105,7 +105,7 @@ const Home = () => {
         {/* vertical div 2 */}
         <div className="flex items-center justify-around ">
           <div className="flex flex-col w-1/2 gap-5">
-            <h1 className="text-4xl font-bold">Dhan App</h1>
+            <h1 className="text-4xl font-bold">Stock Analysis</h1>
             <p className="w-3/4 text-gray-600 text-lg ">
               A modern stock analysis platform built to deliver real-time market
               insights, company information, interactive charts, and financial
@@ -122,23 +122,38 @@ const Home = () => {
         </div>
       </div>
       {/* home page 3rd scene */}
-      <div>
-        <div>
-          <div>
-            <h1>Trade on Trading Terminal with DEXT</h1>
+      <div className="bg-linear-65 from-purple-950  to-blue-900 ">
+        {/* div 1 */}
+        <div className="p-5">
+          <h1 className="text-center text-4xl font-bold text-white">Why Choose Stock Analysis</h1>
+        </div>
+        {/* div 2 */}
+        <div className="grid grid-cols-3 gap-10 p-10 text-center">
+          <div className="bg-linear-60 from-indigo-950 to-purple-950 flex flex-col items-center gap-10 p-4 rounded-2xl">
+            <img width={50} src="/stocks-1.png" alt="" />
+            <h1 className="text-white font-bold ">
+              Stay updated with accurate and live stock market information.
+            </h1>
           </div>
-          <div>
-            <div>
-              <p>30+ Widgets</p>
-            </div>
-            <div>
-              <img src="" alt="" />
-              <p>40+ Keyboard Shortcuts</p>
-            </div>
-            <div>
-              <img src="" alt="" />
-              <p>Trade smoothly</p>
-            </div>
+          <div className="bg-linear-60 from-indigo-950 to-purple-950 flex flex-col items-center gap-10 p-4 rounded-2xl">
+            <img width={50} src="/stock-2.png" alt="" />
+            <h1 className="text-white font-bold ">Analyze price movements with clean and intuitive charts.</h1>
+          </div>
+          <div className="bg-linear-60 from-indigo-950 to-purple-950 flex flex-col items-center gap-10 p-4 rounded-2xl">
+            <img width={50} src="/news-1.png" alt="" />
+            <h1 className="text-white font-bold ">Never miss important financial news and market updates.</h1>
+          </div>
+          <div className="bg-linear-60 from-indigo-950 to-purple-950 flex flex-col items-center gap-10 p-4 rounded-2xl">
+            <img width={50} src="/search-stock.png" alt="" />
+            <h1 className="text-white font-bold ">Instantly find companies, prices, and key market insights.</h1>
+          </div>
+          <div className="bg-linear-60 from-indigo-950 to-purple-950 flex flex-col items-center gap-10 p-4 rounded-2xl">
+            <img width={50} src="/news-1.png" alt="" />
+            <h1 className="text-white font-bold ">Easy-to-understand tools designed for every investor.</h1>
+          </div>
+          <div className="bg-linear-60 from-indigo-950 to-purple-950 flex flex-col items-center gap-10 p-4 rounded-2xl">
+            <img width={50} src="/stock-2.png" alt="" />
+            <h1 className="text-white font-bold ">Built for speed, accuracy, and a seamless user experience.</h1>
           </div>
         </div>
       </div>

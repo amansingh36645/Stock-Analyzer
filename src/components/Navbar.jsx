@@ -11,10 +11,10 @@ const Navbar = () => {
         </div>
         <div className='menu'>
           <ul className='flex gap-10'>
-            <li>Products</li>
-            <li>Ivestment</li>
+            <li>Stocks</li>
             <li>Markets</li>
-            <li>More</li>
+            <li>News</li>
+            <li>Contact</li>
           </ul>
         </div>
         <div className='search bg-transparent'>
