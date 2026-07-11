@@ -129,9 +129,9 @@ const Home = () => {
         </div>
         {/* div 2 */}
         <div className="grid grid-cols-3 gap-10 p-10 text-center">
-          <div className="bg-linear-60 from-indigo-950 to-purple-950 flex flex-col items-center gap-10 p-4 rounded-2xl">
+          <div className="bg-linear-60 from-orange-200 to-white flex flex-col items-center gap-10 p-4 rounded-2xl">
             <img width={50} src="/stocks-1.png" alt="" />
-            <h1 className="text-white font-bold ">
+            <h1 className="font-bold">
               Stay updated with accurate and live stock market information.
             </h1>
           </div>

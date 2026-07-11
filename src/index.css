@@ -1,2 +1,20 @@
 @import "tailwindcss";
 
+/* Horizontal scrollbar only */
+.horizontal-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: #fdfdfd; 
+  border-radius: 9999px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #a13030; 
+  border-radius: 9999px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #bd2015; 
+}
