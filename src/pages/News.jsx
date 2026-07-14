@@ -31,7 +31,9 @@ const News = () => {
   }, [category]);
 
   return (
-    <div>
+    <div className="bg-linear-to-b
+from-slate-100
+to-white">
       {/* heading 1 */}
       <div className=" ">
         <h1 className="text-center text-4xl font-bold p-4">News</h1>

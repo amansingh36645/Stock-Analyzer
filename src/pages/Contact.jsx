@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
+
+//toaster not done yet will se tomorrow 
 
 const Contact = () => {
+  const [value, setValue] = useState("Submit");
+
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm("service_jj46z3o", "template_ckp6u5e", form.current, {
+        publicKey: "PmqTVsaXSNhmG0k_T",
+      })
+      .then(
+        () => {
+          console.log("SUCCESS!");
+
+          toast("Success");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        },
+      );
+  };
+
   return (
     <div>
       <div className="min-h-screen">
@@ -65,7 +92,11 @@ const Contact = () => {
               </div>
 
               {/* Form */}
-              <form className="flex flex-col gap-5 p-8">
+              <form
+                ref={form}
+                onSubmit={sendEmail}
+                className="flex flex-col gap-5 p-8"
+              >
                 <div>
                   <label className="block mb-2 text-gray-700 font-medium">
                     Full Name
@@ -99,9 +130,11 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                <button className="bg-linear-to-r from-blue-950 to-blue-700 text-white py-3 rounded-xl font-semibold hover:scale-[1.02] hover:shadow-xl transition duration-300 cursor-pointer">
-                  Send Message
-                </button>
+                <input
+                  type="submit"
+                  value={value}
+                  className="bg-linear-to-r from-blue-950 to-blue-700 text-white py-3 rounded-xl font-semibold hover:scale-[1.02] hover:shadow-xl transition duration-300 cursor-pointer"
+                />
               </form>
             </div>
           </div>
