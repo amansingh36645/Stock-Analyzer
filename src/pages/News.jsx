@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NewsCard from "../components/NewsCard";
+import axios from "axios";
 
 const News = () => {
+  const [news, setNews] = useState([]);
+  const [category, setCategory] = useState();
+
+  const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=675abaf9746748c399017b75b522fa1a`;
+
+  const numberIs = () => {
+    let randomNum = Math.floor(Math.random() * 5);
+    let arr = ["business", "general", "science", "technology", "entertainment"];
+    setCategory(arr[randomNum]);    
+  };
+
+  const fetchData = async () => {
+    try {
+      numberIs();
+      let response = await axios.get(apiUrl);
+      let data = response.data.articles;
+      setNews(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [category]);
+
   return (
     <div>
       {/* heading 1 */}
@@ -12,63 +40,36 @@ const News = () => {
       <div className="flex flex-col gap-10">
         {/* section 1 */}
         <div className="grid grid-cols-3 place-items-center">
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
+          {news.slice(0, 3).map((e, idx) => {
+            return (
+              <div key={idx}>
+                <NewsCard
+                  layout="horizontal"
+                  img={e.urlToImage}
+                  title={e.title}
+                  category={e.source.name}
+                  publish={e.publishedAt}
+                />
+              </div>
+            );
+          })}
         </div>
+
         {/* section 1.1 */}
         <div className="grid grid-cols-3 place-items-center">
-          <NewsCard
-            layout="vertical"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="vertical"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="vertical"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
+          {news.slice(3, 6).map((e, idx) => {
+            return (
+              <div key={idx}>
+                <NewsCard
+                  layout="vertical"
+                  img={e.urlToImage}
+                  title={e.title}
+                  category={e.source.name}
+                  publish={e.publishedAt}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -81,125 +82,54 @@ const News = () => {
       <div className="flex flex-col gap-10">
         {/* section 2 */}
         <div className="grid grid-cols-3 place-items-center">
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
+          {news.slice(6, 9).map((e, idx) => {
+            return (
+              <div key={idx}>
+                <NewsCard
+                  layout="horizontal"
+                  img={e.urlToImage}
+                  title={e.title}
+                  category={e.source.name}
+                  publish={e.publishedAt}
+                />
+              </div>
+            );
+          })}
         </div>
         {/* section 2.1 */}
         <div className="grid grid-cols-3 place-items-center">
-          <NewsCard
-            layout="vertical"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="vertical"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="vertical"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
+          {news.slice(9, 12).map((e, idx) => {
+            return (
+              <div key={idx}>
+                <NewsCard
+                  layout="vertical"
+                  img={e.urlToImage}
+                  title={e.title}
+                  category={e.source.name}
+                  publish={e.publishedAt}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 
-
       {/* horizontal scrolling cards */}
-        <h1 className=" text-4xl font-bold p-4">Trending News</h1>
+      <h1 className=" text-4xl font-bold p-4">Trending News</h1>
       <div className="flex gap-5 overflow-x-auto scroll-smooth p-5 horizontal-scroll mb-8">
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          <NewsCard
-            layout="horizontal"
-            img={
-              "https://images.unsplash.com/photo-1783657542205-d027329527d4?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            title={"Title will be here"}
-            category={"Banking"}
-            publish={"40m ago"}
-          />
-          
+        {news.slice(12, 24).map((e, idx) => {
+          return (
+            <div key={idx}>
+              <NewsCard
+                layout="horizontal"
+                img={e.urlToImage}
+                title={e.title}
+                category={e.source.name}
+                publish={e.publishedAt}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

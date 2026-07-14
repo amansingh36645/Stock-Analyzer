@@ -20,7 +20,7 @@ const Contact = () => {
               What will be next step?
             </h1>
             <p className="font-semibold">
-              You are one step closer to build your perfect product.
+              You are one step closer to build your perfect portfolio.
             </p>
             <div>
               <div className="mb-8">
