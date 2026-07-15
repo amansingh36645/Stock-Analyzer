@@ -2,8 +2,6 @@ import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 
-//toaster not done yet will se tomorrow 
-
 const Contact = () => {
   const [value, setValue] = useState("Submit");
 
@@ -20,10 +18,31 @@ const Contact = () => {
         () => {
           console.log("SUCCESS!");
 
-          toast("Success");
+          toast.success("Submitted", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            // transition: Bounce,
+          });
         },
         (error) => {
           console.log("FAILED...", error.text);
+          toast.error("Error: Try Later", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            // transition: Bounce,
+          });
         },
       );
   };
@@ -37,6 +56,21 @@ const Contact = () => {
             Looking for a design partner? <br />
             You Found
           </p>
+        </div>
+        <div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            // transition={Bounce}
+          />
         </div>
         <div
           className="bg-gray-100 flex w-full p-5
