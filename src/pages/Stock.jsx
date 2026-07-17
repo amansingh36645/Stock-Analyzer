@@ -1,6 +1,62 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Stock = () => {
+  const [name, setName] = useState();
+  const [symbol, setSymbol] = useState();
+  const [exchange, setExchange] = useState();
+  const [price, setPrice] = useState();
+  const [weekHigh, setweekHigh] = useState();
+  const [weekLow, setweekLow] = useState();
+  const [dividend, setDividend] = useState();
+  const [trailingPE, settrailingPE] = useState();
+  const [desc, setDesc] = useState();
+  const [marketCap, setmarketCap] = useState();
+  const [peRatio, setpeRatio] = useState();
+  const [sector, setSector] = useState();
+  const [industry, setIndustry] = useState();
+  const [officialSite, setofficialSite] = useState();
+  const [assetType, setassetType] = useState();
+  const [address, setAddress] = useState();
+  const [revenueTTM, setrevenueTTM] = useState();
+  const [eps, setEps] = useState();
+  const [roe, setRoe] = useState();
+  const [profitMargin, setprofitMargin] = useState();
+  const [shareFloat, setshareFloat] = useState();
+
+  const fetchStock = async () => {
+    let response = await axios.get(
+      "https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=XT8UR9G69J2A9HDE",
+    );
+    let data = response.data;
+    setName(data.Name);
+    setSymbol(data.Symbol);
+    setExchange(data.Exchange);
+    setPrice(data.AnalystTargetPrice);
+    setweekHigh(data["52WeekHigh"]);
+    setweekLow(data["52WeekLow"]);
+    setDesc(data.Description);
+    setmarketCap(data.MarketCapitalization);
+    setpeRatio(data.PERatio);
+    setSector(data.Sector);
+    setIndustry(data.Industry);
+    setofficialSite(data.OfficialSite);
+    setassetType(data.AssetType);
+    setAddress(data.Address);
+    setrevenueTTM(data.RevenueTTM);
+    setEps(data.EPS);
+    setRoe(data.ReturnOnEquityTTM);
+    setprofitMargin(data.ProfitMargin);
+    setshareFloat(data.SharesFloat);
+    setDividend(data.DividendPerShare);
+    settrailingPE(data.TrailingPE);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    fetchStock();
+  }, []);
+
   return (
     <div className="bg-[#F5F7FB] min-h-screen p-8">
       {/* Header */}
@@ -15,14 +71,14 @@ const Stock = () => {
             />
 
             <div>
-              <h1 className="text-4xl font-bold">Apple Inc.</h1>
+              <h1 className="text-4xl font-bold">{name}</h1>
 
-              <p className="text-blue-200 mt-2">NASDAQ : AAPL</p>
+              <p className="text-blue-200 mt-2">NASDAQ : {symbol}</p>
             </div>
           </div>
 
           <div className="text-right">
-            <h1 className="text-5xl font-bold">$213.45</h1>
+            <h1 className="text-5xl font-bold">${price}</h1>
 
             <p className="text-green-400 font-semibold text-xl">▲ +2.34%</p>
           </div>
@@ -62,32 +118,32 @@ const Stock = () => {
       <div className="grid grid-cols-3 gap-6 mt-8">
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">Market Cap</p>
-          <h2 className="text-3xl font-bold mt-2">$3.45T</h2>
+          <h2 className="text-3xl font-bold mt-2">${marketCap}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">P/E Ratio</p>
-          <h2 className="text-3xl font-bold mt-2">34.21</h2>
+          <h2 className="text-3xl font-bold mt-2">{peRatio}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
-          <p className="text-gray-500">Volume</p>
-          <h2 className="text-3xl font-bold mt-2">65.4M</h2>
+          <p className="text-gray-500">Dividned</p>
+          <h2 className="text-3xl font-bold mt-2">{dividend}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">52W High</p>
-          <h2 className="text-3xl font-bold mt-2">$214.88</h2>
+          <h2 className="text-3xl font-bold mt-2">${weekHigh}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">52W Low</p>
-          <h2 className="text-3xl font-bold mt-2">$164.07</h2>
+          <h2 className="text-3xl font-bold mt-2">${weekLow}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
-          <p className="text-gray-500">Dividend</p>
-          <h2 className="text-3xl font-bold mt-2">0.53%</h2>
+          <p className="text-gray-500">TraIling PE</p>
+          <h2 className="text-3xl font-bold mt-2">{trailingPE}</h2>
         </div>
       </div>
 
@@ -96,12 +152,7 @@ const Stock = () => {
       <div className="bg-white rounded-3xl shadow-lg p-8 mt-8">
         <h1 className="text-3xl font-bold text-blue-950 mb-5">About Company</h1>
 
-        <p className="text-gray-600 leading-8">
-          Apple Inc. designs, manufactures, and markets smartphones, computers,
-          wearables, software, cloud services, and digital content. The company
-          is one of the world's largest technology organizations and continues
-          to innovate across consumer electronics and services.
-        </p>
+        <p className="text-gray-600 leading-8">{desc}</p>
       </div>
 
       {/* Company Details */}
@@ -114,28 +165,28 @@ const Stock = () => {
 
           <div className="space-y-5">
             <div className="flex justify-between">
-              <span>CEO</span>
-              <span className="font-semibold">Tim Cook</span>
+              <span>Address</span>
+              <span className="font-semibold">{address}</span>
             </div>
 
             <div className="flex justify-between">
               <span>Sector</span>
-              <span className="font-semibold">Technology</span>
+              <span className="font-semibold">{sector}</span>
             </div>
 
             <div className="flex justify-between">
               <span>Industry</span>
-              <span className="font-semibold">Consumer Electronics</span>
+              <span className="font-semibold">{industry}</span>
             </div>
 
             <div className="flex justify-between">
-              <span>Employees</span>
-              <span className="font-semibold">164,000</span>
+              <span>Official Site</span>
+              <span className="font-semibold">{officialSite}</span>
             </div>
 
             <div className="flex justify-between">
-              <span>Headquarters</span>
-              <span className="font-semibold">California</span>
+              <span>Asset Type</span>
+              <span className="font-semibold">{assetType}</span>
             </div>
           </div>
         </div>
@@ -148,27 +199,27 @@ const Stock = () => {
           <div className="space-y-5">
             <div className="flex justify-between">
               <span>Revenue</span>
-              <span className="font-semibold">$391B</span>
+              <span className="font-semibold">{revenueTTM}</span>
             </div>
 
             <div className="flex justify-between">
-              <span>Net Income</span>
-              <span className="font-semibold">$97B</span>
+              <span>Share Float</span>
+              <span className="font-semibold">{shareFloat}</span>
             </div>
 
             <div className="flex justify-between">
               <span>EPS</span>
-              <span className="font-semibold">6.13</span>
+              <span className="font-semibold">{eps}</span>
             </div>
 
             <div className="flex justify-between">
               <span>ROE</span>
-              <span className="font-semibold">150%</span>
+              <span className="font-semibold">{roe}%</span>
             </div>
 
             <div className="flex justify-between">
-              <span>Beta</span>
-              <span className="font-semibold">1.18</span>
+              <span>Profit Margin</span>
+              <span className="font-semibold">{profitMargin}</span>
             </div>
           </div>
         </div>

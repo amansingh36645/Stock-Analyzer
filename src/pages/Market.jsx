@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import StockCard from "../components/StockCard";
 import axios from "axios";
 
