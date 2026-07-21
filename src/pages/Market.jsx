@@ -6,25 +6,25 @@ const Market = () => {
   const [topGainer, settopGainer] = useState([]);
   const [topLosers, settopLosers] = useState([]);
 
-  const stkGainLose = async () => {
-    try {
-      let response = await axios.get(
-        "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=XT8UR9G69J2A9HDE",
-      );
-      let gainerData = response.data.top_gainers;
-      let loserData = response.data.top_losers;
-      settopGainer(gainerData);
-      settopLosers(loserData);
+  // const stkGainLose = async () => {
+  //   try {
+  //     // let response = await axios.get(
+  //     //   "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=XT8UR9G69J2A9HDE",
+  //     // );
+  //     let gainerData = response.data.top_gainers;
+  //     let loserData = response.data.top_losers;
+  //     settopGainer(gainerData);
+  //     settopLosers(loserData);
       
       
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    stkGainLose();
-  }, []);
+  // useEffect(() => {
+  //   stkGainLose();
+  // }, []);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6  p-6 bg-linear-to-br from-blue-950 to-blue-700 min-h-screen">

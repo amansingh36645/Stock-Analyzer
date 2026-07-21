@@ -16,8 +16,6 @@ const Contact = () => {
       })
       .then(
         () => {
-          console.log("SUCCESS!");
-
           toast.success("Submitted", {
             position: "top-right",
             autoClose: 5000,
