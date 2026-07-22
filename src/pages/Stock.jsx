@@ -25,6 +25,7 @@ const Stock = () => {
   const [roe, setRoe] = useState();
   const [profitMargin, setprofitMargin] = useState();
   const [shareFloat, setshareFloat] = useState();
+  
 
   const fetchStock = async () => {
   let response = await axios.get(
@@ -98,17 +99,7 @@ const Stock = () => {
           </h1>
 
           <div className="flex gap-3">
-            <button className="px-4 py-2 rounded-xl bg-blue-950 text-white">
-              1D
-            </button>
-
-            <button className="px-4 py-2 rounded-xl bg-gray-100">1W</button>
-
-            <button className="px-4 py-2 rounded-xl bg-gray-100">1M</button>
-
-            <button className="px-4 py-2 rounded-xl bg-gray-100">1Y</button>
-
-            <button className="px-4 py-2 rounded-xl bg-gray-100">ALL</button>
+            will decide what will go here till its blank
           </div>
         </div>
 

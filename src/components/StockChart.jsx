@@ -3,13 +3,13 @@ import ReactApexChart from "react-apexcharts";
 import axios from "axios";
 
 const StockChart = () => {
-  const [stock, setStock] = useState("RELIANCE")
+  const [stock, setStock] = useState("IBM");
   const [candle, setCandle] = useState([]);
   const [chart, setChart] = useState({
     series: [
       {
-        name: "candle",
-        type: "candlestick",
+        name: "",
+        type: "",
         data: [],
       },
     ],
@@ -50,28 +50,30 @@ const StockChart = () => {
     },
   });
 
-
   const fetchChart = async () => {
     try {
       let response_ohcl = await axios.get(
         "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=RELIANCE.BSE&apikey=XT8UR9G69J2A9HDE",
       );
       let data = response_ohcl.data["Time Series (Daily)"];
+      console.log(data);
 
-      const truncateToTwoDecimals = (number) => Math.trunc(number * 100) / 100;
+      const deciMalValue = (number) => Math.trunc(number * 100) / 100;
       const mappedData = Object.keys(data).map((datetime) => ({
         x: new Date(datetime),
         y: [
-          truncateToTwoDecimals(parseFloat(data[datetime]["1. open"])),
-          truncateToTwoDecimals(parseFloat(data[datetime]["2. high"])),
-          truncateToTwoDecimals(parseFloat(data[datetime]["3. low"])),
-          truncateToTwoDecimals(parseFloat(data[datetime]["4. close"])),
+          deciMalValue(parseFloat(data[datetime]["1. open"])),
+          deciMalValue(parseFloat(data[datetime]["2. high"])),
+          deciMalValue(parseFloat(data[datetime]["3. low"])),
+          deciMalValue(parseFloat(data[datetime]["4. close"])),
         ],
       }));
-      setCandle((prev) => ({
+      setChart((prev) => ({
         ...prev,
         series: [
           {
+            name: "candle",
+            type: "candlestick",
             data: mappedData,
           },
         ],
@@ -81,9 +83,9 @@ const StockChart = () => {
     }
   };
 
-  useEffect(() => {
-    fetchChart();
-  }, []);
+  // useEffect(() => {
+  //   fetchChart();
+  // }, []);
 
   return (
     <div>
@@ -91,7 +93,7 @@ const StockChart = () => {
         options={chart.options}
         series={chart.series}
         type="line"
-        height={450}
+        height={425}
         width={1350}
       />
     </div>

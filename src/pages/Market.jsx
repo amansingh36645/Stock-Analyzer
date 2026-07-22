@@ -94,13 +94,13 @@ const Market = () => {
                 return (
                   <div className="flex justify-between">
                     <span>{e.ticker}</span>
-                    <span className="text-green-600 font-semibold">{Math.random(e.change_percentage * 100)/100}</span>
+                    <span className="text-green-600 font-semibold">{(Math.random(e.change_percentage * 100)/100).toFixed(2)}%</span>
                   </div>
                 );
               })
             ) : (
               <div className="flex justify-between items-center">
-                <span className="font-bold">API LIMIT HAS REACHED</span>
+                <span className="font-bold">API LIMIT HAS REACHED COME BACK AFTER 24HRS</span>
                 <span className="text-green-600 font-semibold">+0.00%</span>
               </div>
             )}
@@ -124,7 +124,7 @@ const Market = () => {
               })
             ) : (
               <div className="flex justify-between items-center">
-                <span className="font-bold">API LIMIT HAS REACHED</span>
+                <span className="font-bold">API LIMIT HAS REACHED COME BACK AFTER 24HRS</span>
                 <span className="text-red-500 font-semibold">+0.00%</span>
               </div>
             )}
