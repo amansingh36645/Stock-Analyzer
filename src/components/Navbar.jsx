@@ -4,8 +4,7 @@ import { StockDataName } from "../context/StockName";
 
 const Navbar = () => {
   const [stockName, setstockName] = useContext(StockDataName);
-
-  const [inputValue, setinputValue] = useState("");
+  const [inputValue, setinputValue] = useState("IBM");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,8 +15,7 @@ const Navbar = () => {
       clearTimeout(timer);
     };
   }, [inputValue]);
-
-  console.log(stockName);
+  
 
   return (
     <header className="bg-linear-to-r from-blue-950 to-blue-700 shadow-lg">

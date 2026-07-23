@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useContext } from "react";
+import { StockDataName } from "../context/StockName";
 import StockChart from "../components/StockChart";
 
 const Stock = () => {
+  const [stockName, setstockName] = useContext(StockDataName);
   const [name, setName] = useState();
   const [symbol, setSymbol] = useState();
   const [exchange, setExchange] = useState();
+  const [bookValue, setBookValue] = useState();
   const [price, setPrice] = useState();
   const [weekHigh, setweekHigh] = useState();
   const [weekLow, setweekLow] = useState();
@@ -25,42 +27,44 @@ const Stock = () => {
   const [roe, setRoe] = useState();
   const [profitMargin, setprofitMargin] = useState();
   const [shareFloat, setshareFloat] = useState();
-  
 
   const fetchStock = async () => {
-  let response = await axios.get(
-    "https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=XT8UR9G69J2A9HDE",
-  );
+    try {
+      let response = await axios.get(
+        `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${stockName}&apikey=XT8UR9G69J2A9HDE`,
+      );
 
-  let data = response.data;
-  setName(data.Name);
-  setSymbol(data.Symbol);
-  setExchange(data.Exchange);
-  setPrice(data.AnalystTargetPrice);
-  setweekHigh(data["52WeekHigh"]);
-  setweekLow(data["52WeekLow"]);
-  setDesc(data.Description);
-  setmarketCap((data.MarketCapitalization / 1000000000).toFixed(2));
-  setpeRatio(data.PERatio);
-  setSector(data.Sector);
-  setIndustry(data.Industry);
-  setofficialSite(data.OfficialSite);
-  setassetType(data.AssetType);
-  setAddress(data.Address);
-  setrevenueTTM((data.RevenueTTM / 100000000).toFixed(2));
-  setEps(data.EPS);
-  setRoe(data.ReturnOnEquityTTM);
-  setprofitMargin(data.ProfitMargin);
-  setshareFloat(data.SharesFloat);
-  setDividend(data.DividendPerShare);
-  settrailingPE(data.TrailingPE);
-  console.log(data);
-
+      let data = response.data;
+      setName(data.Name);
+      setSymbol(data.Symbol);
+      setExchange(data.Exchange);
+      setPrice(data.AnalystTargetPrice);
+      setweekHigh(data["52WeekHigh"]);
+      setweekLow(data["52WeekLow"]);
+      setDesc(data.Description);
+      setmarketCap((data.MarketCapitalization / 1000000000).toFixed(2));
+      setpeRatio(data.PERatio);
+      setSector(data.Sector);
+      setIndustry(data.Industry);
+      setofficialSite(data.OfficialSite);
+      setassetType(data.AssetType);
+      setAddress(data.Address);
+      setrevenueTTM((data.RevenueTTM / 100000000).toFixed(2));
+      setEps(data.EPS);
+      setRoe(data.ReturnOnEquityTTM);
+      setprofitMargin(data.ProfitMargin);
+      setshareFloat(data.SharesFloat);
+      setDividend(data.DividendPerShare);
+      settrailingPE(data.TrailingPE);
+      setBookValue(data.BookValue);
+    } catch (error) {
+      console.log("API LIMIT REACHED");
+    }
   };
 
-  // useEffect(() => {
-  //   fetchStock();
-  // }, []);
+  useEffect(() => {
+    fetchStock();
+  }, [stockName]);
 
   return (
     <div className="bg-[#F5F7FB] min-h-screen p-8">
@@ -69,23 +73,26 @@ const Stock = () => {
       <div className="bg-linear-to-r from-blue-950 to-blue-700 rounded-3xl p-8 text-white shadow-xl">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-5">
-            <img
+            {/* <img
               className="w-18 h-18 rounded-full border-2 border-white"
-              src="https://logo.clearbit.com/apple.com"
+              // src="https://logo.clearbit.com/apple.com"
               alt=""
-            />
+            /> */}
 
             <div>
               <h1 className="text-4xl font-bold">{name}</h1>
 
-              <p className="text-blue-200 mt-2">NASDAQ : {symbol}</p>
+              <p className="text-blue-200 mt-2">
+                
+                NASDAQ : {symbol}
+              </p>
             </div>
           </div>
 
           <div className="text-right">
             <h1 className="text-5xl font-bold">${price}</h1>
 
-            <p className="text-green-400 font-semibold text-xl">▲ +2.34%</p>
+            <p className="text-green-400 font-semibold text-xl">{bookValue}</p>
           </div>
         </div>
       </div>
@@ -98,8 +105,8 @@ const Stock = () => {
             Stock Performance
           </h1>
 
-          <div className="flex gap-3">
-            will decide what will go here till its blank
+          <div className="flex gap-3 text-2xl">
+            {name}
           </div>
         </div>
 

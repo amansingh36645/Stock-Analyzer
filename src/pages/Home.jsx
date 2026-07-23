@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -31,13 +32,13 @@ const Home = () => {
             </p>
 
             <div className="flex gap-5">
-              <button className="bg-yellow-400 px-8 py-4 rounded-xl text-lg font-bold hover:scale-105 transition">
+              <Link to="/stock" className="bg-yellow-400 px-8 py-4 rounded-xl text-lg font-bold hover:scale-105 transition">
                 Explore Stocks
-              </button>
+              </Link>
 
-              <button className="border border-white px-8 py-4 rounded-xl text-white hover:bg-white hover:text-blue-900 transition">
+              <Link to="/market" className="border border-white px-8 py-4 rounded-xl text-white hover:bg-white hover:text-blue-900 transition">
                 View Markets
-              </button>
+              </Link>
             </div>
 
             {/* Built For */}
@@ -55,13 +56,13 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 flex items-center gap-4">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 flex items-center gap-4 ">
                 <img src="/SideBorder.png" className="h-12" />
 
                 <div>
                   <p className="text-blue-200 text-sm">Built for</p>
 
-                  <h1 className="text-white font-bold text-xl">Investors</h1>
+                  <h1 className="text-white font-bold text-xl">Investors & Traders</h1>
                 </div>
               </div>
             </div>
@@ -145,9 +146,9 @@ const Home = () => {
                 place.
               </p>
 
-              <button className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition">
+              <Link to="/stock" className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition">
                 Explore Stocks
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -168,13 +169,13 @@ const Home = () => {
                 updates, and global events affecting your favorite stocks.
               </p>
 
-              <button className="bg-orange-400 text-white px-8 py-4 rounded-xl hover:bg-orange-500 transition">
+              <Link to="/news" className="bg-orange-400 text-white px-8 py-4 rounded-xl hover:bg-orange-500 transition">
                 Explore News
-              </button>
+              </Link>
             </div>
 
             <div className="w-1/2 flex justify-center">
-              <img src="/news-illustration.png" className="w-105" alt="" />
+              <img src="/news-laptop.png" alt="Laptop Mockup Success - Marketing@pngkey.com"/>
             </div>
           </div>
         </div>
@@ -311,13 +312,13 @@ const Home = () => {
                 </p>
 
                 <div className="flex gap-5 mt-10">
-                  <button className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition duration-300">
+                  <Link to="/stock" className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition duration-300">
                     Explore Stocks
-                  </button>
+                  </Link>
 
-                  <button className="border-2 border-blue-900 text-blue-900 px-8 py-4 rounded-xl hover:bg-blue-900 hover:text-white transition duration-300">
+                  <Link to="/news" className="border-2 border-blue-900 text-blue-900 px-8 py-4 rounded-xl hover:bg-blue-900 hover:text-white transition duration-300">
                     Latest News
-                  </button>
+                  </Link>
                 </div>
               </div>
 
@@ -339,14 +340,14 @@ const Home = () => {
             Ready to Take Control of Your Investments?
           </h1>
 
-          <p className="text-blue-200 text-lg mt-6 w-2/3 mx-auto leading-8">
+          <p className="text-blue-200 text-lg mt-6 mb-6 w-2/3 mx-auto leading-8">
             Discover real-time stock analysis, market insights, financial news,
             and powerful tools designed to help you invest with confidence.
           </p>
 
-          <button className="mt-10 bg-yellow-400 text-blue-950 font-bold px-10 py-4 rounded-xl hover:scale-105 transition duration-300">
+          <Link className="mt-10 bg-yellow-400 text-blue-950 font-bold px-10 py-4 rounded-xl hover:scale-105 transition duration-300">
             Get Started
-          </button>
+          </Link>
         </div>
       </section>
     </div>

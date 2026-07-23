@@ -15,8 +15,7 @@ const Market = () => {
   //     let loserData = response.data.top_losers;
   //     settopGainer(gainerData);
   //     settopLosers(loserData);
-      
-      
+
   //   } catch (error) {
   //     console.log(error);
   //   }
@@ -58,24 +57,121 @@ const Market = () => {
         </div>
 
         {/* Stock Cards */}
-        <div className="bg-white rounded-2xl shadow-xl p-6">
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="text-2xl font-bold text-blue-950">
-              Market Overview
-            </h2>
+        <div className="bg-gradient-to-br from-blue-950 to-blue-700 rounded-2xl p-8 text-white">
 
-            <button className="text-blue-700 font-semibold hover:text-blue-900">
-              View All →
-            </button>
-          </div>
+  <div className="flex justify-between items-center mb-6">
+    <h2 className="text-2xl font-bold">
+      🌟 Stock Of The Day
+    </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5">
-            <StockCard />
-            <StockCard />
-            <StockCard />
-            <StockCard />
-          </div>
-        </div>
+    <span className="bg-white/20 px-3 py-1 rounded-full text-sm">
+      Featured
+    </span>
+  </div>
+
+  <div className="flex flex-col gap-5">
+
+    <div>
+      <h1 className="text-4xl font-bold">
+        RELIANCE
+      </h1>
+
+      <p className="text-blue-200">
+        Reliance Industries Ltd.
+      </p>
+    </div>
+
+    <div className="flex gap-8">
+
+      <div>
+        <p className="text-blue-200 text-sm">
+          Current Price
+        </p>
+
+        <h3 className="text-2xl font-bold">
+          ₹1,487.50
+        </h3>
+      </div>
+
+      <div>
+        <p className="text-blue-200 text-sm">
+          Day Change
+        </p>
+
+        <h3 className="text-2xl font-bold text-green-400">
+          +2.35%
+        </h3>
+      </div>
+
+    </div>
+
+    <div className="bg-white/10 p-4 rounded-xl">
+      <p className="text-sm text-blue-100">
+        Reliance is today's featured stock based on strong momentum,
+        increasing volume, and positive market sentiment.
+      </p>
+    </div>
+
+    <button className="bg-white text-blue-950 font-semibold py-3 rounded-xl hover:bg-blue-100 transition">
+      View Analysis
+    </button>
+
+  </div>
+
+</div>
+
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5">
+            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">
+                  🔥 Trending Stocks
+                </h2>
+
+                <button className="text-blue-400 hover:text-blue-300">
+                  View All
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <div className="flex justify-between items-center bg-slate-800 p-4 rounded-xl">
+                  <div>
+                    <h3 className="font-bold text-white">RELIANCE</h3>
+                    <p className="text-gray-400 text-sm">Reliance Industries</p>
+                  </div>
+
+                  <div className="text-right">
+                    <h3 className="text-white font-semibold">₹1,487.50</h3>
+                    <p className="text-green-400">+2.35%</p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center bg-slate-800 p-4 rounded-xl">
+                  <div>
+                    <h3 className="font-bold text-white">TCS</h3>
+                    <p className="text-gray-400 text-sm">Tata Consultancy</p>
+                  </div>
+
+                  <div className="text-right">
+                    <h3 className="text-white font-semibold">₹4,225.20</h3>
+                    <p className="text-green-400">+1.12%</p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center bg-slate-800 p-4 rounded-xl">
+                  <div>
+                    <h3 className="font-bold text-white">INFY</h3>
+                    <p className="text-gray-400 text-sm">Infosys Ltd</p>
+                  </div>
+
+                  <div className="text-right">
+                    <h3 className="text-white font-semibold">₹1,725.00</h3>
+                    <p className="text-red-400">-0.56%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> */}
+        
       </div>
 
       {/* ================= RIGHT SECTION (1/3) ================= */}
@@ -90,17 +186,24 @@ const Market = () => {
 
           <div className="flex flex-col gap-4">
             {topGainer ? (
-              topGainer.slice(0,10).map((e) => {
+              topGainer.slice(0, 10).map((e) => {
                 return (
                   <div className="flex justify-between">
                     <span>{e.ticker}</span>
-                    <span className="text-green-600 font-semibold">{(Math.random(e.change_percentage * 100)/100).toFixed(2)}%</span>
+                    <span className="text-green-600 font-semibold">
+                      {(Math.random(e.change_percentage * 100) / 100).toFixed(
+                        2,
+                      )}
+                      %
+                    </span>
                   </div>
                 );
               })
             ) : (
               <div className="flex justify-between items-center">
-                <span className="font-bold">API LIMIT HAS REACHED COME BACK AFTER 24HRS</span>
+                <span className="font-bold">
+                  API LIMIT HAS REACHED COME BACK AFTER 24HRS
+                </span>
                 <span className="text-green-600 font-semibold">+0.00%</span>
               </div>
             )}
@@ -114,17 +217,21 @@ const Market = () => {
 
           <div className="flex flex-col gap-4">
             {topLosers ? (
-              topLosers.slice(0,10).map((e) => {
+              topLosers.slice(0, 10).map((e) => {
                 return (
                   <div className="flex justify-between ">
                     <span>{e.ticker}</span>
-                    <span className="text-red-500 font-semibold">{Math.random(e.change_percentage * 100)/100}</span>
+                    <span className="text-red-500 font-semibold">
+                      {Math.random(e.change_percentage * 100) / 100}
+                    </span>
                   </div>
                 );
               })
             ) : (
               <div className="flex justify-between items-center">
-                <span className="font-bold">API LIMIT HAS REACHED COME BACK AFTER 24HRS</span>
+                <span className="font-bold">
+                  API LIMIT HAS REACHED COME BACK AFTER 24HRS
+                </span>
                 <span className="text-red-500 font-semibold">+0.00%</span>
               </div>
             )}
