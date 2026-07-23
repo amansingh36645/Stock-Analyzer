@@ -64,10 +64,10 @@ const Stock = () => {
 
   useEffect(() => {
     fetchStock();
-  }, [stockName]);
+  }, []);
 
   return (
-    <div className="bg-[#F5F7FB] min-h-screen p-8">
+    <div className="bg-[#F5F7FB] min-h-screen p-8 pt-28">
       {/* Header */}
 
       <div className="bg-linear-to-r from-blue-950 to-blue-700 rounded-3xl p-8 text-white shadow-xl">
@@ -92,7 +92,7 @@ const Stock = () => {
           <div className="text-right">
             <h1 className="text-5xl font-bold">${price}</h1>
 
-            <p className="text-green-400 font-semibold text-xl">{bookValue}</p>
+            <p className="text-blue-200 font-semibold text-xl">Book Value: {bookValue}</p>
           </div>
         </div>
       </div>

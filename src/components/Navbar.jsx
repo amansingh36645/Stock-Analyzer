@@ -18,8 +18,8 @@ const Navbar = () => {
   
 
   return (
-    <header className="bg-linear-to-r from-blue-950 to-blue-700 shadow-lg">
-      <nav className="  flex items-center justify-between px-8 py-5">
+    <header className="bg-linear-to-r from-blue-950 to-blue-700 shadow-lg fixed z-10 w-full">
+      <nav className="  flex items-center justify-between px-8 py-5 ">
         {/* Logo */}
 
         <Link to="/" className="flex items-center gap-3">

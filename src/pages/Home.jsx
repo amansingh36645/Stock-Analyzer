@@ -1,78 +1,107 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Background from "../design/Background";
 
 const Home = () => {
   return (
-    <div>
+    <div className="pt-20">
       {/* ================= HERO SECTION ================= */}
 
-      <section className="bg-linear-to-r from-[#081B4B] via-[#123A88] to-[#2D73FF] overflow-hidden">
-        <div className=" mx-auto px-10 py-20 flex items-center justify-between">
-          {/* Left */}
+      <section className=" bg-linear-to-r from-blue-950 to-blue-700 w-full h-screen relative  flex justify-center items-center overflow-hidden">
+        <div style={{ height: 600, position: "relative" }}>
+          <Background
+            // Visuals
+            color="#B497CF"
+            brightness={2}
+            edgeIntensity={0}
+            // Trail and motion
+            trailLength={50}
+            inertia={0.5}
+            // Post-processing
+            grainIntensity={0.05}
+            bloomStrength={0.1}
+            bloomRadius={1}
+            bloomThreshold={0.025}
+            // Fade-out behavior
+            fadeDelayMs={1000}
+            fadeDurationMs={1500}
+          />
+        </div>
+        <div className="absolute flex flex-col justify-center items-center">
+          <div className=" mx-auto px-10 py-20 flex items-center justify-between">
+            {/* Left */}
 
-          <div className="w-1/2 flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <img src="/spark.png" className="w-14" alt="" />
+            <div className="w-1/2 flex flex-col gap-8">
+              <div className="flex items-center gap-4">
+                <img src="/spark.png" className="w-14" alt="" />
 
-              <p className="uppercase tracking-widest text-blue-200 font-semibold">
-                Smart Investing Platform
+                <p className="uppercase tracking-widest text-blue-200 font-semibold">
+                  Smart Investing Platform
+                </p>
+              </div>
+
+              <h1 className="text-6xl font-extrabold leading-tight text-white">
+                Analyze Stocks
+                <br />
+                Like a Professional.
+              </h1>
+
+              <p className="text-blue-100 text-lg leading-8 w-4/5">
+                Discover market trends, analyze company fundamentals, explore
+                financial news, and make better investment decisions—all from
+                one modern dashboard.
               </p>
-            </div>
 
-            <h1 className="text-6xl font-extrabold leading-tight text-white">
-              Analyze Stocks
-              <br />
-              Like a Professional.
-            </h1>
+              <div className="flex gap-5">
+                <Link
+                  to="/stock"
+                  className="bg-yellow-400 px-8 py-4 rounded-xl text-lg font-bold hover:scale-105 transition"
+                >
+                  Explore Stocks
+                </Link>
 
-            <p className="text-blue-100 text-lg leading-8 w-4/5">
-              Discover market trends, analyze company fundamentals, explore
-              financial news, and make better investment decisions—all from one
-              modern dashboard.
-            </p>
-
-            <div className="flex gap-5">
-              <Link to="/stock" className="bg-yellow-400 px-8 py-4 rounded-xl text-lg font-bold hover:scale-105 transition">
-                Explore Stocks
-              </Link>
-
-              <Link to="/market" className="border border-white px-8 py-4 rounded-xl text-white hover:bg-white hover:text-blue-900 transition">
-                View Markets
-              </Link>
-            </div>
-
-            {/* Built For */}
-
-            <div className="flex gap-6 mt-4">
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 flex items-center gap-4">
-                <img src="/SideBorder.png" className="h-12" />
-
-                <div>
-                  <p className="text-blue-200 text-sm">Built for</p>
-
-                  <h1 className="text-white font-bold text-xl">
-                    Active Traders
-                  </h1>
-                </div>
+                <Link
+                  to="/market"
+                  className="border border-white px-8 py-4 rounded-xl text-white hover:bg-white hover:text-blue-900 transition"
+                >
+                  View Markets
+                </Link>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 flex items-center gap-4 ">
-                <img src="/SideBorder.png" className="h-12" />
+              {/* Built For */}
 
-                <div>
-                  <p className="text-blue-200 text-sm">Built for</p>
+              <div className="flex gap-6 mt-4">
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 flex items-center gap-4">
+                  <img src="/SideBorder.png" className="h-12" />
 
-                  <h1 className="text-white font-bold text-xl">Investors & Traders</h1>
+                  <div>
+                    <p className="text-blue-200 text-sm">Built for</p>
+
+                    <h1 className="text-white font-bold text-xl">
+                      Active Traders
+                    </h1>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 flex items-center gap-4 ">
+                  <img src="/SideBorder.png" className="h-12" />
+
+                  <div>
+                    <p className="text-blue-200 text-sm">Built for</p>
+
+                    <h1 className="text-white font-bold text-xl">
+                      Investors & Traders
+                    </h1>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Right */}
+            {/* Right */}
 
-          <div className="w-1/2 flex justify-center">
-            <img src="/laptop-phone.png" className="w-full max-w-162.5" />
-            
+            <div className="w-1/2 flex justify-center">
+              <img src="/laptop-phone.png" className="w-full max-w-162.5" />
+            </div>
           </div>
         </div>
       </section>
@@ -146,7 +175,10 @@ const Home = () => {
                 place.
               </p>
 
-              <Link to="/stock" className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition">
+              <Link
+                to="/stock"
+                className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition"
+              >
                 Explore Stocks
               </Link>
             </div>
@@ -169,13 +201,19 @@ const Home = () => {
                 updates, and global events affecting your favorite stocks.
               </p>
 
-              <Link to="/news" className="bg-orange-400 text-white px-8 py-4 rounded-xl hover:bg-orange-500 transition">
+              <Link
+                to="/news"
+                className="bg-orange-400 text-white px-8 py-4 rounded-xl hover:bg-orange-500 transition"
+              >
                 Explore News
               </Link>
             </div>
 
             <div className="w-1/2 flex justify-center">
-              <img src="/news-laptop.png" alt="Laptop Mockup Success - Marketing@pngkey.com"/>
+              <img
+                src="/news-laptop.png"
+                alt="Laptop Mockup Success - Marketing@pngkey.com"
+              />
             </div>
           </div>
         </div>
@@ -312,11 +350,17 @@ const Home = () => {
                 </p>
 
                 <div className="flex gap-5 mt-10">
-                  <Link to="/stock" className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition duration-300">
+                  <Link
+                    to="/stock"
+                    className="bg-blue-900 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition duration-300"
+                  >
                     Explore Stocks
                   </Link>
 
-                  <Link to="/news" className="border-2 border-blue-900 text-blue-900 px-8 py-4 rounded-xl hover:bg-blue-900 hover:text-white transition duration-300">
+                  <Link
+                    to="/news"
+                    className="border-2 border-blue-900 text-blue-900 px-8 py-4 rounded-xl hover:bg-blue-900 hover:text-white transition duration-300"
+                  >
                     Latest News
                   </Link>
                 </div>

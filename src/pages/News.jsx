@@ -37,7 +37,7 @@ const News = () => {
   }, [category]);
 
   return (
-    <div>
+    <div className="pt-22">
       {loading ? (
         <NewsPageSkeleton />
       ) : (

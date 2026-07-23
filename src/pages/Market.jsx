@@ -1,240 +1,192 @@
-import React, { useEffect, useState } from "react";
-import StockCard from "../components/StockCard";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Market = () => {
-  const [topGainer, settopGainer] = useState([]);
-  const [topLosers, settopLosers] = useState([]);
+  const [gainer, setGainer] = useState();
+  const [loser, setLosers] = useState();
+  const stkGainLose = async () => {
+    try {
+      let response = await axios.get(
+        "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=XT8UR9G69J2A9HDE",
+      );
+      let gainerData = response.data.top_gainers;
+      let loserData = response.data.top_losers;
+      settopGainer(gainerData);
+      settopLosers(loserData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // const stkGainLose = async () => {
-  //   try {
-  //     // let response = await axios.get(
-  //     //   "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=XT8UR9G69J2A9HDE",
-  //     // );
-  //     let gainerData = response.data.top_gainers;
-  //     let loserData = response.data.top_losers;
-  //     settopGainer(gainerData);
-  //     settopLosers(loserData);
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   stkGainLose();
-  // }, []);
+  useEffect(() => {
+    stkGainLose();
+  }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6  p-6 bg-linear-to-br from-blue-950 to-blue-700 min-h-screen">
-      {/* ================= LEFT SECTION (2/3) ================= */}
-      <div className="w-full lg:w-2/3 flex flex-col gap-6">
-        {/* Wishlist */}
-        <div className="bg-white rounded-2xl shadow-xl p-6">
-          <h2 className="text-2xl font-bold text-blue-950 mb-4">
-            ⭐ My Watchlist
-          </h2>
-          {/* mapping here */}
-          <div
-            // key={stock.symbol}
-            className="flex justify-between items-center border rounded-xl p-4 hover:bg-gray-50 transition"
-          >
+    <div className="bg-slate-100 min-h-screen p-8 pt-30">
+      {/* Heading */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-slate-800">Market Dashboard</h1>
+        <p className="text-slate-500 mt-2">
+          Track market trends, signals, and global indices.
+        </p>
+      </div>
+
+      {/* Top Gainers & Losers */}
+      <div className="grid grid-cols-2 gap-6 mb-8">
+        {/* Gainers */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+          <h2 className="text-xl font-bold mb-5 text-slate-800">Top Gainers</h2>
+      {/* here i have to fix the mapping will do tomorrow */}
+          <div className="space-y-4">
+            {gainer.slice(0, 5).map((e) => {
+              return (
+                <div className="flex justify-between">
+                  <span>{e.name}</span>
+                  <span className="text-green-600 font-semibold">+{(e.gainer).toFixed(2)}%</span>
+                </div>
+              );
+            })}
+
+            <div className="flex justify-between">
+              <span>TCS</span>
+              <span className="text-green-600 font-semibold">+3.87%</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>INFY</span>
+              <span className="text-green-600 font-semibold">+3.41%</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>HDFCBANK</span>
+              <span className="text-green-600 font-semibold">+2.92%</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Losers */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+          <h2 className="text-xl font-bold mb-5 text-slate-800">Top Losers</h2>
+
+          <div className="space-y-4">
+            <div className="flex justify-between">
+              <span>WIPRO</span>
+              <span className="text-red-600 font-semibold">-2.45%</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>LTIM</span>
+              <span className="text-red-600 font-semibold">-2.31%</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>BPCL</span>
+              <span className="text-red-600 font-semibold">-1.88%</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>SBIN</span>
+              <span className="text-red-600 font-semibold">-1.52%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Global Markets */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+        <h2 className="text-xl font-bold mb-6 text-slate-800">
+          Global Markets
+        </h2>
+
+        <div className="grid grid-cols-5 gap-5">
+          <div className="bg-slate-50 rounded-xl p-4">
+            <p className="text-slate-500">S&P 500</p>
+            <h3 className="font-bold text-lg">6,432</h3>
+            <p className="text-green-600">+0.65%</p>
+          </div>
+
+          <div className="bg-slate-50 rounded-xl p-4">
+            <p className="text-slate-500">NASDAQ</p>
+            <h3 className="font-bold text-lg">21,420</h3>
+            <p className="text-green-600">+1.12%</p>
+          </div>
+
+          <div className="bg-slate-50 rounded-xl p-4">
+            <p className="text-slate-500">Dow Jones</p>
+            <h3 className="font-bold text-lg">44,852</h3>
+            <p className="text-red-600">-0.22%</p>
+          </div>
+
+          <div className="bg-slate-50 rounded-xl p-4">
+            <p className="text-slate-500">Nikkei 225</p>
+            <h3 className="font-bold text-lg">40,110</h3>
+            <p className="text-green-600">+0.91%</p>
+          </div>
+
+          <div className="bg-slate-50 rounded-xl p-4">
+            <p className="text-slate-500">FTSE 100</p>
+            <h3 className="font-bold text-lg">9,203</h3>
+            <p className="text-green-600">+0.34%</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="grid grid-cols-2 gap-6">
+        {/* Market Signal */}
+        <div className="bg-linear-to-r from-blue-950 to-blue-700 text-white rounded-2xl p-6">
+          <h2 className="text-2xl font-bold mb-6">Market Signal</h2>
+
+          <div className="space-y-4">
             <div>
-              <h1 className="font-bold">STATE BANK INDIA</h1>
-              <p className="text-gray-500">SBIN</p>
+              <p className="text-slate-300">Stock</p>
+              <h3 className="text-xl font-semibold">RELIANCE</h3>
             </div>
 
-            <div className="text-center">
-              <h2>$88</h2>
-              <p className="text-green-600">4.5%</p>
+            <div>
+              <p className="text-slate-300">Current Price</p>
+              <h3 className="text-xl font-semibold">₹2,850</h3>
             </div>
 
-            <div className="text-right">
-              <p>High: 99</p>
-              <p>Low: 45</p>
+            <div>
+              <p className="text-slate-300">Volume / OI Ratio</p>
+              <h3 className="text-xl font-semibold">1.78</h3>
+            </div>
+
+            <div>
+              <p className="text-slate-300">Signal</p>
+              <h3 className="text-green-400 font-semibold">Bullish Momentum</h3>
+            </div>
+
+            <div>
+              <p className="text-slate-300">Confidence</p>
+              <h3 className="font-semibold">Medium</h3>
             </div>
           </div>
         </div>
 
-        {/* Stock Cards */}
-        <div className="bg-gradient-to-br from-blue-950 to-blue-700 rounded-2xl p-8 text-white">
-
-  <div className="flex justify-between items-center mb-6">
-    <h2 className="text-2xl font-bold">
-      🌟 Stock Of The Day
-    </h2>
-
-    <span className="bg-white/20 px-3 py-1 rounded-full text-sm">
-      Featured
-    </span>
-  </div>
-
-  <div className="flex flex-col gap-5">
-
-    <div>
-      <h1 className="text-4xl font-bold">
-        RELIANCE
-      </h1>
-
-      <p className="text-blue-200">
-        Reliance Industries Ltd.
-      </p>
-    </div>
-
-    <div className="flex gap-8">
-
-      <div>
-        <p className="text-blue-200 text-sm">
-          Current Price
-        </p>
-
-        <h3 className="text-2xl font-bold">
-          ₹1,487.50
-        </h3>
-      </div>
-
-      <div>
-        <p className="text-blue-200 text-sm">
-          Day Change
-        </p>
-
-        <h3 className="text-2xl font-bold text-green-400">
-          +2.35%
-        </h3>
-      </div>
-
-    </div>
-
-    <div className="bg-white/10 p-4 rounded-xl">
-      <p className="text-sm text-blue-100">
-        Reliance is today's featured stock based on strong momentum,
-        increasing volume, and positive market sentiment.
-      </p>
-    </div>
-
-    <button className="bg-white text-blue-950 font-semibold py-3 rounded-xl hover:bg-blue-100 transition">
-      View Analysis
-    </button>
-
-  </div>
-
-</div>
-
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5">
-            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">
-                  🔥 Trending Stocks
-                </h2>
-
-                <button className="text-blue-400 hover:text-blue-300">
-                  View All
-                </button>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <div className="flex justify-between items-center bg-slate-800 p-4 rounded-xl">
-                  <div>
-                    <h3 className="font-bold text-white">RELIANCE</h3>
-                    <p className="text-gray-400 text-sm">Reliance Industries</p>
-                  </div>
-
-                  <div className="text-right">
-                    <h3 className="text-white font-semibold">₹1,487.50</h3>
-                    <p className="text-green-400">+2.35%</p>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center bg-slate-800 p-4 rounded-xl">
-                  <div>
-                    <h3 className="font-bold text-white">TCS</h3>
-                    <p className="text-gray-400 text-sm">Tata Consultancy</p>
-                  </div>
-
-                  <div className="text-right">
-                    <h3 className="text-white font-semibold">₹4,225.20</h3>
-                    <p className="text-green-400">+1.12%</p>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center bg-slate-800 p-4 rounded-xl">
-                  <div>
-                    <h3 className="font-bold text-white">INFY</h3>
-                    <p className="text-gray-400 text-sm">Infosys Ltd</p>
-                  </div>
-
-                  <div className="text-right">
-                    <h3 className="text-white font-semibold">₹1,725.00</h3>
-                    <p className="text-red-400">-0.56%</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-        
-      </div>
-
-      {/* ================= RIGHT SECTION (1/3) ================= */}
-
-      <div className="w-full lg:w-1/3 flex flex-col gap-6 ">
-        {/* Top Gainers */}
-
-        <div className="bg-white rounded-2xl shadow-xl p-6 h-1/2">
-          <h2 className="text-xl font-bold text-green-600 mb-4">
-            📈 Top Gainers
+        {/* User Predictions */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+          <h2 className="text-2xl font-bold mb-6 text-slate-800">
+            User Predictions
           </h2>
 
-          <div className="flex flex-col gap-4">
-            {topGainer ? (
-              topGainer.slice(0, 10).map((e) => {
-                return (
-                  <div className="flex justify-between">
-                    <span>{e.ticker}</span>
-                    <span className="text-green-600 font-semibold">
-                      {(Math.random(e.change_percentage * 100) / 100).toFixed(
-                        2,
-                      )}
-                      %
-                    </span>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="flex justify-between items-center">
-                <span className="font-bold">
-                  API LIMIT HAS REACHED COME BACK AFTER 24HRS
-                </span>
-                <span className="text-green-600 font-semibold">+0.00%</span>
-              </div>
-            )}
-          </div>
-        </div>
+          <div className="space-y-5">
+            <div className="border-b pb-3">
+              <h3 className="font-semibold">RELIANCE</h3>
+              <p className="text-slate-500">Prediction: Above ₹2900</p>
+            </div>
 
-        {/* Top Losers */}
+            <div className="border-b pb-3">
+              <h3 className="font-semibold">INFY</h3>
+              <p className="text-slate-500">Prediction: Below ₹1600</p>
+            </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-6 h-1/2">
-          <h2 className="text-xl font-bold text-red-500 mb-4">📉 Top Losers</h2>
-
-          <div className="flex flex-col gap-4">
-            {topLosers ? (
-              topLosers.slice(0, 10).map((e) => {
-                return (
-                  <div className="flex justify-between ">
-                    <span>{e.ticker}</span>
-                    <span className="text-red-500 font-semibold">
-                      {Math.random(e.change_percentage * 100) / 100}
-                    </span>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="flex justify-between items-center">
-                <span className="font-bold">
-                  API LIMIT HAS REACHED COME BACK AFTER 24HRS
-                </span>
-                <span className="text-red-500 font-semibold">+0.00%</span>
-              </div>
-            )}
+            <div>
+              <h3 className="font-semibold">TCS</h3>
+              <p className="text-slate-500">Prediction: Above ₹4200</p>
+            </div>
           </div>
         </div>
       </div>
