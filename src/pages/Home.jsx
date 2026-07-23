@@ -1,33 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Background from "../design/Background";
+import Particles from '../design/Particles';
 
 const Home = () => {
   return (
     <div className="pt-20">
-      {/* ================= HERO SECTION ================= */}
-
-      <section className=" bg-linear-to-r from-blue-950 to-blue-700 w-full h-screen relative  flex justify-center items-center overflow-hidden">
-        <div style={{ height: 600, position: "relative" }}>
-          <Background
-            // Visuals
-            color="#B497CF"
-            brightness={2}
-            edgeIntensity={0}
-            // Trail and motion
-            trailLength={50}
-            inertia={0.5}
-            // Post-processing
-            grainIntensity={0.05}
-            bloomStrength={0.1}
-            bloomRadius={1}
-            bloomThreshold={0.025}
-            // Fade-out behavior
-            fadeDelayMs={1000}
-            fadeDurationMs={1500}
+      <div className="w-full h-screen relative bg-black flex justify-center items-center">
+        <div style={{ width: "100%", height: "600px", position: "relative" }}>
+          <Particles
+            particleColors={["#ffffff"]}
+            particleCount={200}
+            particleSpread={10}
+            speed={0.1}
+            particleBaseSize={100}
+            moveParticlesOnHover
+            alphaParticles={false}
+            disableRotation={false}
+            pixelRatio={1}
           />
         </div>
-        <div className="absolute flex flex-col justify-center items-center">
+        {/* ================= HERO SECTION ================= */}
+
+        <section className="absolute flex flex-col justify-center items-center">
           <div className=" mx-auto px-10 py-20 flex items-center justify-between">
             {/* Left */}
 
@@ -103,8 +97,8 @@ const Home = () => {
               <img src="/laptop-phone.png" className="w-full max-w-162.5" />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <section className="bg-[#F5F7FB] py-20">
         <div className="max-w-7xl mx-auto">
