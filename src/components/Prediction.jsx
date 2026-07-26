@@ -1,6 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useEffectEvent, useState } from "react";
-import { log } from "three";
+import React, { useEffect, useState } from "react";
 
 const Prediction = () => {
   const [points, setPoints] = useState(1000);
@@ -12,7 +11,7 @@ const Prediction = () => {
   const [lose, setLose] = useState(0);
   const [prevPrice, setprevPrice] = useState();
   const [price, setPrice] = useState(); // this state will use for tomorrow price
-  const [finalPrice, setfinalPrice] = useState();
+  // const [finalPrice, setfinalPrice] = useState();
   const [register, setRegister] = useState(false);
   const [predictData, setpredictData] = useState();
 
@@ -29,16 +28,20 @@ const Prediction = () => {
     setName(stockName);
   }, []);
 
-  const stkPrice = async () => {
-    let response = await axios.get(
-      `https://finnhub.io/api/v1/quote?symbol=${name}&token=cremcchr01qnd5cvr330cremcchr01qnd5cvr33g`,
-    );
-    let data = response.data["c"];
-    setprevPrice(data);
+  const fetchStockPrice = async () => {
+    try {
+      let response = await axios.get(
+        `https://finnhub.io/api/v1/quote?symbol=${name}&token=cremcchr01qnd5cvr330cremcchr01qnd5cvr33g`,
+      );
+      let data = response.data["c"];
+      setprevPrice(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    stkPrice();
+    fetchStockPrice();
   }, [register]);
 
   // prediction here
@@ -46,14 +49,19 @@ const Prediction = () => {
     let obj = {
       stock: `${name}`,
       prediction: `${direction}`,
-      referencePrice: `${prevPrice}`,
+      referencePrice: prevPrice,
       predictionDate: `${new Date().toLocaleString()}`,
       status: "pending",
     };
     localStorage.setItem("data", JSON.stringify(obj));
-    let predictionData = JSON.parse(localStorage.getItem("data"));
-    setpredictData(predictionData);
   };
+
+  useEffect(() => {
+    let predictionData = JSON.parse(localStorage.getItem("data"));
+    if (predictData) {
+      setpredictData(predictionData);
+    }
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -133,9 +141,10 @@ const Prediction = () => {
                       predictStock("UP");
                     }}
                     className={
-                      "bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer "
+                      "bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer disabled:cursor-not-allowed"
                     }
                     value="UP"
+                    disabled={predictData?.status === "pending"}
                   >
                     Predict UP
                   </button>
@@ -144,8 +153,9 @@ const Prediction = () => {
                     onClick={() => {
                       predictStock("DOWN");
                     }}
-                    className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer"
+                    className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer disabled:cursor-not-allowed"
                     value="DOWN"
+                    disabled={predictData?.status === "pending"}
                   >
                     Predict DOWN
                   </button>
@@ -251,45 +261,7 @@ const Prediction = () => {
               )}
             </div>
           </div>
-          {/* History */}
-          {/* <div className="bg-blue-500 rounded-xl p-6 mt-8">
-            <h2 className="text-2xl font-semibold mb-6">Recent Predictions</h2>
 
-            <table className="w-full">
-              <thead className="text-gray-400 border-b border-zinc-700">
-                <tr>
-                  <th className="text-left py-3">Stock</th>
-                  <th>Prediction</th>
-                  <th>Points</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr className="border-b border-zinc-800">
-                  <td className="py-4">AAPL</td>
-                  <td className="text-center text-green-400">UP</td>
-                  <td className="text-center text-green-400">+34</td>
-                  <td className="text-center">✅ Won</td>
-                </tr>
-
-                <tr className="border-b border-zinc-800">
-                  <td className="py-4">TSLA</td>
-                  <td className="text-center text-red-400">DOWN</td>
-                  <td className="text-center text-red-400">-30</td>
-                  <td className="text-center">❌ Lost</td>
-                </tr>
-
-                <tr>
-                  <td className="py-4">MSFT</td>
-                  <td className="text-center text-green-400">UP</td>
-                  <td className="text-center text-green-400">+18</td>
-                  <td className="text-center">✅ Won</td>
-                </tr>
-              </tbody>
-            </table>
-            
-          </div> */}
           <button
             className="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-lg font-semibold transition mt-5 text-white"
             onClick={(e) => {
