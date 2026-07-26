@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useEffectEvent, useState } from "react";
 import { log } from "three";
 
 const Prediction = () => {
@@ -8,47 +8,13 @@ const Prediction = () => {
   const [accuracy, setAccuracy] = useState(0);
   const [streak, setStreak] = useState(0);
   const [prediction, setPrediction] = useState(0);
-  const [predictUpDown, setpredictUpDown] = useState();
   const [win, setWin] = useState(0);
   const [lose, setLose] = useState(0);
   const [prevPrice, setprevPrice] = useState();
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState(); // this state will use for tomorrow price
   const [finalPrice, setfinalPrice] = useState();
   const [register, setRegister] = useState(false);
-
-  const stkPrice = async () => {
-    let response = await axios.get(
-      `https://finnhub.io/api/v1/quote?symbol=${name}&token=cremcchr01qnd5cvr330cremcchr01qnd5cvr33g`,
-    );
-
-    let data = response.data["c"];
-    setprevPrice(data);
-  };
-
-  useEffect(() => {
-    let stkName = ["AAPL", "NVDA", "MSFT", "AMZN", "KO", "WMT"];
-    let num = Math.floor((Math.random() * 12) / 2);
-    let stockName = stkName[num];
-    setName(stockName);
-  }, []);
-
-  useEffect(()=>{
-    stkPrice();
-  },[register])
-
-  // prediction here
-  const predictStock = (direction) => {
-    let obj = {
-      stock: `${name}`,
-      prediction: `${direction}`,
-      referencePrice: `${prevPrice}`,
-      predictionDate: `${new Date().toLocaleTimeString()}`,
-      status: "pending",
-    };
-    localStorage.setItem("data", JSON.stringify(obj));
-    console.log(predictUpDown);
-    
-  };
+  const [predictData, setpredictData] = useState();
 
   // window open resgister
   const registerPred = () => {
@@ -56,13 +22,38 @@ const Prediction = () => {
     localStorage.setItem("Points", `${points}`);
   };
 
-// will start from here tomorrow
+  useEffect(() => {
+    let stkName = ["AAPL", "NVDA", "MSFT", "AMZN", "IBM", "WMT"];
+    let num = Math.floor((Math.random() * 12) / 2);
+    let stockName = stkName[num];
+    setName(stockName);
+  }, []);
 
-  // let jsonData = localStorage.getItem("data")
-  // let data = JSON.parse(jsonData)
+  const stkPrice = async () => {
+    let response = await axios.get(
+      `https://finnhub.io/api/v1/quote?symbol=${name}&token=cremcchr01qnd5cvr330cremcchr01qnd5cvr33g`,
+    );
+    let data = response.data["c"];
+    setprevPrice(data);
+  };
 
-  // console.log(data);
-  
+  useEffect(() => {
+    stkPrice();
+  }, [register]);
+
+  // prediction here
+  const predictStock = (direction) => {
+    let obj = {
+      stock: `${name}`,
+      prediction: `${direction}`,
+      referencePrice: `${prevPrice}`,
+      predictionDate: `${new Date().toLocaleString()}`,
+      status: "pending",
+    };
+    localStorage.setItem("data", JSON.stringify(obj));
+    let predictionData = JSON.parse(localStorage.getItem("data"));
+    setpredictData(predictionData);
+  };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -115,7 +106,7 @@ const Prediction = () => {
                 Make Prediction
               </h2>
 
-              <div className="space-y-5">
+              <div className="space-y-12">
                 <div>
                   <p className="text-gray-500 text-sm">Stock</p>
                   <h3 className="text-2xl font-bold">{name}.</h3>
@@ -129,7 +120,7 @@ const Prediction = () => {
                 </div>
 
                 <div>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-500 text-md">
                     Use your market analysis to predict whether this stock will
                     open higher or lower than its current price on the next
                     trading day.
@@ -138,20 +129,22 @@ const Prediction = () => {
 
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <button
-                    onClick={()=>{
-                      predictStock("UP")
+                    onClick={() => {
+                      predictStock("UP");
                     }}
-                    className="bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition"
+                    className={
+                      "bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer "
+                    }
                     value="UP"
                   >
                     Predict UP
                   </button>
 
                   <button
-                    onClick={()=>{
-                      predictStock("DOWN")
+                    onClick={() => {
+                      predictStock("DOWN");
                     }}
-                    className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
+                    className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer"
                     value="DOWN"
                   >
                     Predict DOWN
@@ -163,42 +156,99 @@ const Prediction = () => {
             {/* Ongoing Prediction */}
             <div className="bg-linear-to-br from-blue-950 to-blue-700 rounded-2xl shadow-lg p-6 text-white">
               <h2 className="text-2xl font-bold mb-6">Ongoing Prediction</h2>
-
-              <div className="space-y-5">
-                <div>
-                  <p className="text-blue-200 text-sm">Stock</p>
-
-                  <h3 className="text-2xl font-bold">Apple Inc.</h3>
-                </div>
-
-                <div className="flex justify-between">
+              {predictData ? (
+                <div className="space-y-5">
                   <div>
-                    <p className="text-blue-200 text-sm">Prediction</p>
+                    <p className="text-blue-200 text-sm">Stock</p>
 
-                    <h3 className="text-green-400 font-bold text-xl">UP</h3>
+                    <h3 className="text-2xl font-bold">
+                      {predictData["stock"]}.
+                    </h3>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <div>
+                      <p className="text-blue-200 text-sm">Prediction</p>
+
+                      <h3 className="text-green-400 font-bold text-xl">
+                        {predictData["prediction"]}
+                      </h3>
+                    </div>
+
+                    <div>
+                      <p className="text-blue-200 text-sm">Reference Price</p>
+
+                      <h3 className="font-bold text-xl">
+                        ${predictData["referencePrice"]}
+                      </h3>
+                    </div>
                   </div>
 
                   <div>
-                    <p className="text-blue-200 text-sm">Target Price</p>
+                    <p className="text-blue-200 text-sm">Submitted</p>
 
-                    <h3 className="font-bold text-xl">$205</h3>
+                    <h3 className="font-semibold">
+                      {predictData["predictionDate"]}
+                    </h3>
                   </div>
+
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <p className="text-blue-200 text-sm">Status</p>
+
+                    <h2 className="text-yellow-300 font-bold text-lg">
+                      {predictData["status"].toUpperCase()}
+                    </h2>
+                  </div>
+                  <button
+                    className="bg-cyan-500 hover:bg-cyan-700 text-white px-2 py-3 rounded-xl font-semibold transition"
+                    value="DOWN"
+                  >
+                    Check Result
+                  </button>
                 </div>
+              ) : (
+                <div className="space-y-5">
+                  <div>
+                    <p className="text-blue-200 text-sm">Stock</p>
 
-                <div>
-                  <p className="text-blue-200 text-sm">Submitted</p>
+                    <h3 className="text-2xl font-bold">Apple Inc.</h3>
+                  </div>
 
-                  <h3 className="font-semibold">Today • 11:24 AM</h3>
+                  <div className="flex justify-between">
+                    <div>
+                      <p className="text-blue-200 text-sm">Prediction</p>
+
+                      <h3 className="text-green-400 font-bold text-xl">UP</h3>
+                    </div>
+
+                    <div>
+                      <p className="text-blue-200 text-sm">Target Price</p>
+
+                      <h3 className="font-bold text-xl">$205</h3>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-blue-200 text-sm">Submitted</p>
+
+                    <h3 className="font-semibold">Today • 11:24 AM</h3>
+                  </div>
+
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <p className="text-blue-200 text-sm">Status</p>
+
+                    <h2 className="text-yellow-300 font-bold text-lg">
+                      Waiting for Market Close...
+                    </h2>
+                  </div>
+                  <button
+                    className="bg-gray-500 hover:bg-red-600 text-white px-2 py-3 rounded-xl font-semibold transition"
+                    value="DOWN"
+                  >
+                    Claim Points
+                  </button>
                 </div>
-
-                <div className="bg-white/10 rounded-xl p-4">
-                  <p className="text-blue-200 text-sm">Status</p>
-
-                  <h2 className="text-yellow-300 font-bold text-lg">
-                    Waiting for Market Close...
-                  </h2>
-                </div>
-              </div>
+              )}
             </div>
           </div>
           {/* History */}
@@ -241,7 +291,7 @@ const Prediction = () => {
             
           </div> */}
           <button
-            className="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-lg font-semibold transition mt-5"
+            className="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-lg font-semibold transition mt-5 text-white"
             onClick={(e) => {
               setRegister(false);
             }}
