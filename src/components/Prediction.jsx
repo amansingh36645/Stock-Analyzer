@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const Prediction = () => {
-  const [points, setPoints] = useState(1000);
+  const [points, setPoints] = useState(localStorage.getItem("Points"));
   const [name, setName] = useState();
   const [accuracy, setAccuracy] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -17,8 +17,8 @@ const Prediction = () => {
 
   // window open resgister
   const registerPred = () => {
-    setRegister(true);
-    localStorage.setItem("Points", `${points}`);
+    localStorage.setItem("Registeration", "true");
+    localStorage.setItem("Points", `1000`);
   };
 
   useEffect(() => {
@@ -26,6 +26,7 @@ const Prediction = () => {
     let num = Math.floor((Math.random() * 12) / 2);
     let stockName = stkName[num];
     setName(stockName);
+    let isRegistered = localStorage.getItem("Registeration");
   }, []);
 
   const fetchStockPrice = async () => {
@@ -41,7 +42,11 @@ const Prediction = () => {
   };
 
   useEffect(() => {
-    fetchStockPrice();
+    if (predictData?.status === "pending") {
+      console.log("prediction is going on");
+    } else {
+      fetchStockPrice();
+    }
   }, [register]);
 
   // prediction here
@@ -53,20 +58,53 @@ const Prediction = () => {
       predictionDate: `${new Date().toLocaleString()}`,
       status: "pending",
     };
+
     localStorage.setItem("data", JSON.stringify(obj));
   };
 
   useEffect(() => {
     let predictionData = JSON.parse(localStorage.getItem("data"));
-    if (predictData) {
+    if (predictionData) {
       setpredictData(predictionData);
     }
   }, []);
 
+  const checkResult = async () => {
+    try {
+      let response = await axios.get(
+        `https://finnhub.io/api/v1/quote?symbol=${predictData["stock"]}&token=cremcchr01qnd5cvr330cremcchr01qnd5cvr33g`,
+      );
+      let data = response.data["o"];
+      let chngPercentage = response.data["dp"];
+      setPrice(data);
+      if (price > predictData["referencePrice"]) {
+        let result = chngPercentage * 10;
+        let pointsValue = JSON.parse(localStorage.getItem("Points"));
+        let finalValue = Math.floor(pointsValue + result);
+        localStorage.setItem("Points", JSON.stringify(finalValue));
+        let points_value = JSON.parse(localStorage.getItem("Points"));
+        setPoints(points_value);
+      } else {
+        let pointsValue = JSON.parse(localStorage.getItem("Points"));
+        let finalValue = Math.floor(pointsValue - 20);
+        localStorage.setItem("Points", JSON.stringify(finalValue));
+        let points_value = JSON.parse(localStorage.getItem("Points"));
+        setPoints(points_value);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   let points_value = JSON.parse(localStorage.getItem("Points"));
+  //   setPoints(points_value.toFixed(2));
+  // }, [points]);
+
   return (
     <div className="max-w-7xl mx-auto p-6">
       {/* Header */}
-      {register === true ? (
+      {localStorage.getItem("Registeration") === "true" ? (
         <div>
           <div className="flex justify-between items-center mb-8">
             <div>
@@ -210,6 +248,7 @@ const Prediction = () => {
                     </h2>
                   </div>
                   <button
+                    onClick={checkResult}
                     className="bg-cyan-500 hover:bg-cyan-700 text-white px-2 py-3 rounded-xl font-semibold transition"
                     value="DOWN"
                   >
@@ -217,6 +256,7 @@ const Prediction = () => {
                   </button>
                 </div>
               ) : (
+                // default page when nothing in ongoing prediction
                 <div className="space-y-5">
                   <div>
                     <p className="text-blue-200 text-sm">Stock</p>
@@ -261,15 +301,6 @@ const Prediction = () => {
               )}
             </div>
           </div>
-
-          <button
-            className="bg-red-500 hover:bg-red-600 px-6 py-3 rounded-lg font-semibold transition mt-5 text-white"
-            onClick={(e) => {
-              setRegister(false);
-            }}
-          >
-            Minimize
-          </button>
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center">
