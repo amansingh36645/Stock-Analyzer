@@ -67,7 +67,7 @@ const Stock = () => {
   // }, []);
 
   return (
-    <div className="bg-[#F5F7FB] min-h-screen p-8 pt-28">
+    <div className="bg-[#F5F7FB] min-h-screen p-8">
       {/* Header */}
 
       <div className="bg-linear-to-r from-blue-950 to-blue-700 rounded-3xl p-8 text-white shadow-xl">

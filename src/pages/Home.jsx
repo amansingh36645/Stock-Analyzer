@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Particles from '../design/Particles';
+import Particles from "../design/Particles";
 
 const Home = () => {
   return (
-    <div className="py-16">
+    <div className="">
       <div className="w-full h-screen relative bg-black flex justify-center items-center">
         <div style={{ width: "100%", height: "600px", position: "relative" }}>
           <Particles

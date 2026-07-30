@@ -21,6 +21,7 @@ const Market = () => {
       setGainer(gainerData);
       setLosers(loserData);
       setmarketStatus(marketData);
+
       console.log(marketData);
     } catch (error) {
       console.log(error);
@@ -32,7 +33,7 @@ const Market = () => {
   // }, []);
 
   return (
-    <div className="bg-slate-100 min-h-screen p-8 pt-30">
+    <div className="bg-slate-100 min-h-screen p-8">
       {/* Heading */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-slate-800">Market Dashboard</h1>
