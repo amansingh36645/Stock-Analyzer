@@ -15,14 +15,15 @@ const Prediction = () => {
   // const [finalPrice, setfinalPrice] = useState();
   const [register, setRegister] = useState(false);
   const [predictData, setpredictData] = useState();
-  const [result, setResult] = useState(false);
+  const [result, setResult] = useState();
+  const [isPrection, setisPrection] = useState();
+  
 
   // window open resgister
   const registerPred = () => {
     localStorage.setItem("Registeration", "true");
     localStorage.setItem("Points", `1000`);
     setRegister(true);
-
   };
 
   useEffect(() => {
@@ -45,13 +46,14 @@ const Prediction = () => {
   };
 
   useEffect(() => {
-    if (!predictData?.status === "pending") {
+    if (!predictData) { //!predictData?.status === "pending" 
       fetchStockPrice();
     }
   }, [register]);
 
   // prediction here
   const predictStock = (direction) => {
+    localStorage.removeItem("data");
     let obj = {
       stock: `${name}`,
       prediction: `${direction}`,
@@ -75,45 +77,52 @@ const Prediction = () => {
       let response = await axios.get(
         `https://finnhub.io/api/v1/quote?symbol=${predictData["stock"]}&token=cremcchr01qnd5cvr330cremcchr01qnd5cvr33g`,
       );
-     
+
       let data = response.data["o"];
       let chngPercentage = response.data["dp"];
       setPrice(data);
       setchngPrice(chngPercentage);
+
+      //calculation for prediction points and reward
+
+      let pointsValue = JSON.parse(localStorage.getItem("Points"));
+
+      if (
+        data > predictData["referencePrice"] &&
+        predictData["prediction"] === "UP"
+      ) {
+        let result = chngPercentage * 10;
+        let finalValue = Math.floor(pointsValue + result);
+        localStorage.setItem("Points", JSON.stringify(finalValue));
+        setPoints(finalValue);
+        setisPrection("Correct");
+      } else if (
+        data < predictData["referencePrice"] &&
+        predictData["prediction"] === "DOWN"
+      ) {
+        let result = chngPercentage * 10;
+        let finalValue = Math.floor(pointsValue + result);
+        localStorage.setItem("Points", JSON.stringify(finalValue));
+        setPoints(finalValue);
+        setisPrection("Correct");
+      } else {
+        let finalValue = Math.floor(pointsValue - 20);
+        setPoints(finalValue);
+        setisPrection("Wrong");
+      }
+
+      //updating ui using state
+
+      setResult(true);
+      localStorage.setItem("Result", "True");
       console.log(response);
     } catch (error) {
       console.error(error);
     }
-
-    //calculation for prediction points and reward
-
-    let pointsValue = JSON.parse(localStorage.getItem("Points"));
-
-    if (price > predictData["referencePrice"]) {
-      let result = chngPrice * 10;
-      let finalValue = Math.floor(pointsValue + result);
-      localStorage.setItem("Points", JSON.stringify(finalValue));
-    } else if (price != null) {
-      let finalValue = Math.floor(pointsValue - 20);
-      localStorage.setItem("Points", JSON.stringify(finalValue));
-    }
-
-    //updating ui using state
-    let points_value = JSON.parse(localStorage.getItem("Points"));
-    setPoints(points_value);
-    setResult(true);
-    localStorage.setItem("Result",JSON.stringify(result))
-
   };
 
   //reset prediction function
-  const resetPrediction = () => {
-    
-  }
-
-  // useEffect(()=>{
-  //   checkResult()
-  // },[result])
+  const resetPrediction = () => {};
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -159,13 +168,13 @@ const Prediction = () => {
             </div>
           </div>
           {/* Prediction Card */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid gap-6">
             {/* Prediction Card */}
 
             {
               <div
                 className={
-                  predictData?.status === "pending"
+                  predictData
                     ? "hidden"
                     : "bg-white rounded-2xl shadow-lg border border-gray-200 p-6"
                 }
@@ -201,10 +210,9 @@ const Prediction = () => {
                         predictStock("UP");
                       }}
                       className={
-                        "bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer disabled:cursor-not-allowed"
+                        "bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer "
                       }
                       value="UP"
-                      disabled={predictData?.status === "pending"}
                     >
                       Predict UP
                     </button>
@@ -213,9 +221,8 @@ const Prediction = () => {
                       onClick={() => {
                         predictStock("DOWN");
                       }}
-                      className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer disabled:cursor-not-allowed"
+                      className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer "
                       value="DOWN"
-                      disabled={predictData?.status === "pending"}
                     >
                       Predict DOWN
                     </button>
@@ -226,97 +233,108 @@ const Prediction = () => {
 
             {/* //result will display here */}
 
-            { result && (
-                <div className="bg-slate-900 rounded-2xl border border-slate-700 p-6 w-full max-w-2xl mx-auto shadow-xl">
-                  {/* Header */}
-                  <div className="flex justify-between items-center mb-6">
-                    <div>
-                      <h2 className="text-2xl font-bold text-white">
-                        Prediction Result
-                      </h2>
-                      <p className="text-gray-400 text-sm">{predictData["stock"]}.</p>
-                    </div>
-
-                    <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full font-semibold">
-                      Correct Prediction
-                    </div>
+            {result && (
+              <div className="bg-slate-900 rounded-2xl border border-slate-700 p-6 w-full mx-auto shadow-xl">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">
+                      Prediction Result
+                    </h2>
+                    <p className="text-gray-400 text-sm">
+                      {predictData["stock"]}.
+                    </p>
                   </div>
 
-                  {/* Comparison */}
-                  <div className="grid grid-cols-2 gap-5">
-                    <div className="bg-slate-800 rounded-xl p-5">
-                      <p className="text-gray-400 text-sm mb-2">
-                        Reference Price
-                      </p>
-
-                      <h2 className="text-3xl font-bold text-white">
-                        ₹{predictData["referencePrice"]}
-                      </h2>
-
-                      <p className="text-gray-500 mt-2">
-                        Price when prediction was submitted
-                      </p>
-                    </div>
-
-                    <div className="bg-slate-800 rounded-xl p-5">
-                      <p className="text-gray-400 text-sm mb-2">Latest Price</p>
-
-                      <h2 className="text-3xl font-bold text-white">
-                        ₹{price}
-                      </h2>
-
-                      <p className="text-gray-500 mt-2">Current market price</p>
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-
-                  <div className="grid grid-cols-3 gap-4 mt-6">
-                    <div className="bg-slate-800 rounded-xl p-4 text-center">
-                      <p className="text-gray-400 text-sm">Prediction</p>
-
-                      <h3 className="text-green-400 text-xl font-bold mt-2">
-                        {predictData["prediction"]}
-                      </h3>
-                    </div>
-
-                    <div className="bg-slate-800 rounded-xl p-4 text-center">
-                      <p className="text-gray-400 text-sm">Percentage Change</p>
-
-                      <h3 className="text-green-400 text-xl font-bold mt-2">
-                        {(chngPrice).toFixed(2)}%
-                      </h3>
-                    </div>
-
-                    <div className="bg-slate-800 rounded-xl p-4 text-center">
-                      <p className="text-gray-400 text-sm">League Points</p>
-
-                      <h3 className="text-green-400 text-xl font-bold mt-2">
-                        {Math.floor(chngPrice)}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Footer */}
-
-                  <div className="mt-8 bg-green-500/10 border border-green-500 rounded-xl p-5 flex justify-between items-center">
-                    <div>
-                      <p className="text-gray-400 text-sm">Updated Balance</p>
-
-                      <h2 className="text-3xl font-bold text-white">
-                        {points} Points
-                      </h2>
-                    </div>
-
-                    <button onClick={resetPrediction} className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl font-semibold transition">
-                      Continue
-                    </button>
+                  <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full font-semibold">
+                    {isPrection} Prediction
                   </div>
                 </div>
-              )}
+
+                {/* Comparison */}
+                <div className="grid grid-cols-2 gap-5">
+                  <div className="bg-slate-800 rounded-xl p-5">
+                    <p className="text-gray-400 text-sm mb-2">
+                      Reference Price
+                    </p>
+
+                    <h2 className="text-3xl font-bold text-white">
+                      ₹{predictData["referencePrice"]}
+                    </h2>
+
+                    <p className="text-gray-500 mt-2">
+                      Price when prediction was submitted
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-800 rounded-xl p-5">
+                    <p className="text-gray-400 text-sm mb-2">Latest Price</p>
+
+                    <h2 className="text-3xl font-bold text-white">
+                      ₹{price.toFixed(2)}
+                    </h2>
+
+                    <p className="text-gray-500 mt-2">Current market price</p>
+                  </div>
+                </div>
+
+                {/* Stats */}
+
+                <div className="grid grid-cols-3 gap-4 mt-6">
+                  <div className="bg-slate-800 rounded-xl p-4 text-center">
+                    <p className="text-gray-400 text-sm">Prediction</p>
+
+                    <h3 className="text-green-400 text-xl font-bold mt-2">
+                      {predictData["prediction"]}
+                    </h3>
+                  </div>
+
+                  <div className="bg-slate-800 rounded-xl p-4 text-center">
+                    <p className="text-gray-400 text-sm">Percentage Change</p>
+
+                    <h3 className="text-green-400 text-xl font-bold mt-2">
+                      {chngPrice.toFixed(2)}%
+                    </h3>
+                  </div>
+
+                  <div className="bg-slate-800 rounded-xl p-4 text-center">
+                    <p className="text-gray-400 text-sm">League Points</p>
+
+                    <h3 className="text-green-400 text-xl font-bold mt-2">
+                      {Math.floor(chngPrice * 10)}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Footer */}
+
+                <div className="mt-8 bg-green-500/10 border border-green-500 rounded-xl p-5 flex justify-between items-center">
+                  <div>
+                    <p className="text-gray-400 text-sm">Updated Balance</p>
+
+                    <h2 className="text-3xl font-bold text-white">
+                      {points} Points
+                    </h2>
+                  </div>
+
+                  <button
+                    onClick={resetPrediction}
+                    className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl font-semibold transition"
+                  >
+                    Continue
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Ongoing Prediction */}
-            <div className="bg-linear-to-br from-blue-950 to-blue-700 rounded-2xl shadow-lg p-6 text-white">
+            <div
+              className={
+                result === true
+                  ? "hidden"
+                  : "bg-linear-to-br from-blue-950 to-blue-700 rounded-2xl shadow-lg p-6 text-white"
+              }
+            >
               <h2 className="text-2xl font-bold mb-6">Ongoing Prediction</h2>
               {predictData ? (
                 <div className="space-y-5">
@@ -362,7 +380,10 @@ const Prediction = () => {
                     </h2>
                   </div>
                   <button
-                    onClick={checkResult}                   className="bg-cyan-500 hover:bg-cyan-700 text-white px-2 py-3 rounded-xl font-semibold transition"
+                    onClick={checkResult}
+                    className={
+                      "bg-cyan-500 hover:bg-cyan-700 text-white px-2 py-3 rounded-xl font-semibold transition"
+                    }
                     value="DOWN"
                   >
                     Check Result
