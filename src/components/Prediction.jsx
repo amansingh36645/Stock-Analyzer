@@ -20,7 +20,7 @@ const Prediction = () => {
   const [isPrediction, setisPrediction] = useState(false);
   const [isresultData, setisresultData] = useState();
 
-  // window open resgister
+  // fresh login one time update data
   const registerPred = () => {
     localStorage.setItem("Registeration", "true");
     localStorage.setItem("Points", `1000`);
@@ -28,6 +28,7 @@ const Prediction = () => {
     setPoints(1000);
   };
 
+  //random stock symbol generate to fetch random stock name
   useEffect(() => {
     let stkName = ["AAPL", "NVDA", "MSFT", "AMZN", "IBM", "WMT"];
     let num = Math.floor((Math.random() * 12) / 2);
@@ -35,6 +36,7 @@ const Prediction = () => {
     setName(stockName);
   }, []);
 
+  //fetch stock price open high low close
   const fetchStockPrice = async () => {
     try {
       let response = await axios.get(
@@ -42,19 +44,20 @@ const Prediction = () => {
       );
       let data = response.data["c"];
       setprevPrice(data);
+      console.log(response.data);
+      console.log(name);
     } catch (error) {
       console.log(error);
     }
   };
 
+  //condition
   useEffect(() => {
-    if (!predictData) {
-      //!predictData?.status === "pending"
-      fetchStockPrice();
-    }
-  }, [register]);
+    if (!name) return;
+    fetchStockPrice();
+  }, [name]);
 
-  // prediction here
+  // prediction function here to store ongoing prediction in local storage
   const predictStock = (direction) => {
     localStorage.removeItem("data");
     let obj = {
@@ -73,7 +76,6 @@ const Prediction = () => {
     if (predictionData) {
       setpredictData(predictionData);
     }
-    
   }, [isPrediction]);
 
   const checkResult = async () => {
@@ -88,7 +90,7 @@ const Prediction = () => {
       setchngPrice(chngPercentage);
 
       // store result in local storage
-      
+
       let obj = {
         stock: `${predictData["stock"]}`,
         prediction: `${predictData["prediction"]}`,
@@ -96,9 +98,9 @@ const Prediction = () => {
         submittedDate: `${new Date().toLocaleString()}`,
         status: "completed",
         pointsAwarded: true,
-        currentPrice: `${(data).toFixed(2)}`,
-        percentage : `${(chngPercentage).toFixed(2)}`,
-        pointCredited: `${result}`
+        currentPrice: `${data.toFixed(2)}`,
+        percentage: `${chngPercentage.toFixed(2)}`,
+        pointCredited: `${result}`,
       };
 
       localStorage.setItem("resultObj", JSON.stringify(obj));
@@ -134,7 +136,7 @@ const Prediction = () => {
       }
 
       //updating ui using state
-      
+
       setResult(true);
       localStorage.setItem("Result", "true");
       console.log(response);
@@ -142,14 +144,13 @@ const Prediction = () => {
       console.error(error);
     }
   };
-  //useffect for result data 
-  useEffect(()=>{
+  //useffect for result data
+  useEffect(() => {
     let resultData = JSON.parse(localStorage.getItem("resultObj"));
     if (resultData) {
       setisresultData(resultData);
     }
-    
-  },[result])
+  }, [result]);
 
   //reset prediction function
   const resetPrediction = () => {};
@@ -264,7 +265,7 @@ const Prediction = () => {
             }
 
             {/* //result will display here */}
-            
+
             {isresultData && (
               <div className="bg-slate-900 rounded-2xl border border-slate-700 p-6 w-full mx-auto shadow-xl">
                 {/* Header */}
@@ -303,7 +304,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm mb-2">Latest Price</p>
 
                     <h2 className="text-3xl font-bold text-white">
-                      ₹{(isresultData["currentPrice"])}
+                      ₹{isresultData["currentPrice"]}
                     </h2>
 
                     <p className="text-gray-500 mt-2">Current market price</p>
@@ -325,7 +326,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm">Percentage Change</p>
 
                     <h3 className="text-green-400 text-xl font-bold mt-2">
-                      {(isresultData["percentage"])}%
+                      {isresultData["percentage"]}%
                     </h3>
                   </div>
 
@@ -333,7 +334,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm">League Points</p>
 
                     <h3 className="text-green-400 text-xl font-bold mt-2">
-                      {Math.floor((isresultData["percentage"]*10))}
+                      {Math.floor(isresultData["percentage"] * 10)}
                     </h3>
                   </div>
                 </div>
