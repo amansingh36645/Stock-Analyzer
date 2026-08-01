@@ -17,13 +17,15 @@ const Prediction = () => {
   const [predictData, setpredictData] = useState();
   const [result, setResult] = useState();
   const [isPrection, setisPrection] = useState();
-  
+  const [isPrediction, setisPrediction] = useState(false);
+  const [isresultData, setisresultData] = useState();
 
   // window open resgister
   const registerPred = () => {
     localStorage.setItem("Registeration", "true");
     localStorage.setItem("Points", `1000`);
     setRegister(true);
+    setPoints(1000);
   };
 
   useEffect(() => {
@@ -46,7 +48,8 @@ const Prediction = () => {
   };
 
   useEffect(() => {
-    if (!predictData) { //!predictData?.status === "pending" 
+    if (!predictData) {
+      //!predictData?.status === "pending"
       fetchStockPrice();
     }
   }, [register]);
@@ -61,7 +64,7 @@ const Prediction = () => {
       predictionDate: `${new Date().toLocaleString()}`,
       status: "pending",
     };
-
+    setisPrediction(true);
     localStorage.setItem("data", JSON.stringify(obj));
   };
 
@@ -70,7 +73,8 @@ const Prediction = () => {
     if (predictionData) {
       setpredictData(predictionData);
     }
-  }, []);
+    
+  }, [isPrediction]);
 
   const checkResult = async () => {
     try {
@@ -82,6 +86,22 @@ const Prediction = () => {
       let chngPercentage = response.data["dp"];
       setPrice(data);
       setchngPrice(chngPercentage);
+
+      // store result in local storage
+      
+      let obj = {
+        stock: `${predictData["stock"]}`,
+        prediction: `${predictData["prediction"]}`,
+        referencePrice: `${predictData["referencePrice"]}`,
+        submittedDate: `${new Date().toLocaleString()}`,
+        status: "completed",
+        pointsAwarded: true,
+        currentPrice: `${(data).toFixed(2)}`,
+        percentage : `${(chngPercentage).toFixed(2)}`,
+        pointCredited: `${result}`
+      };
+
+      localStorage.setItem("resultObj", JSON.stringify(obj));
 
       //calculation for prediction points and reward
 
@@ -106,20 +126,30 @@ const Prediction = () => {
         setPoints(finalValue);
         setisPrection("Correct");
       } else {
-        let finalValue = Math.floor(pointsValue - 20);
+        let result = chngPercentage * 10;
+        let finalValue = Math.floor(pointsValue - result);
+        localStorage.setItem("Points", JSON.stringify(finalValue));
         setPoints(finalValue);
         setisPrection("Wrong");
       }
 
       //updating ui using state
-
+      
       setResult(true);
-      localStorage.setItem("Result", "True");
+      localStorage.setItem("Result", "true");
       console.log(response);
     } catch (error) {
       console.error(error);
     }
   };
+  //useffect for result data 
+  useEffect(()=>{
+    let resultData = JSON.parse(localStorage.getItem("resultObj"));
+    if (resultData) {
+      setisresultData(resultData);
+    }
+    
+  },[result])
 
   //reset prediction function
   const resetPrediction = () => {};
@@ -176,22 +206,24 @@ const Prediction = () => {
                 className={
                   predictData
                     ? "hidden"
-                    : "bg-white rounded-2xl shadow-lg border border-gray-200 p-6"
+                    : "bg-slate-800  border-slate-700 rounded-2xl shadow-lg border  p-6"
                 }
               >
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                <h2 className="text-2xl font-bold text-gray-200 mb-6">
                   Make Prediction
                 </h2>
 
                 <div className="space-y-12">
                   <div>
                     <p className="text-gray-500 text-sm">Stock</p>
-                    <h3 className="text-2xl font-bold">{name}.</h3>
+                    <h3 className="text-blue-400 text-2xl font-bold">
+                      {name}.
+                    </h3>
                   </div>
 
                   <div>
                     <p className="text-gray-500 text-sm">Current Price</p>
-                    <h2 className="text-3xl font-bold text-blue-900">
+                    <h2 className="text-3xl font-bold text-slate-400">
                       ${prevPrice}
                     </h2>
                   </div>
@@ -232,8 +264,8 @@ const Prediction = () => {
             }
 
             {/* //result will display here */}
-
-            {result && (
+            
+            {isresultData && (
               <div className="bg-slate-900 rounded-2xl border border-slate-700 p-6 w-full mx-auto shadow-xl">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
@@ -242,7 +274,7 @@ const Prediction = () => {
                       Prediction Result
                     </h2>
                     <p className="text-gray-400 text-sm">
-                      {predictData["stock"]}.
+                      {isresultData["stock"]}.
                     </p>
                   </div>
 
@@ -259,7 +291,7 @@ const Prediction = () => {
                     </p>
 
                     <h2 className="text-3xl font-bold text-white">
-                      ₹{predictData["referencePrice"]}
+                      ₹{isresultData["referencePrice"]}
                     </h2>
 
                     <p className="text-gray-500 mt-2">
@@ -271,7 +303,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm mb-2">Latest Price</p>
 
                     <h2 className="text-3xl font-bold text-white">
-                      ₹{price.toFixed(2)}
+                      ₹{(isresultData["currentPrice"])}
                     </h2>
 
                     <p className="text-gray-500 mt-2">Current market price</p>
@@ -285,7 +317,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm">Prediction</p>
 
                     <h3 className="text-green-400 text-xl font-bold mt-2">
-                      {predictData["prediction"]}
+                      {isresultData["prediction"]}
                     </h3>
                   </div>
 
@@ -293,7 +325,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm">Percentage Change</p>
 
                     <h3 className="text-green-400 text-xl font-bold mt-2">
-                      {chngPrice.toFixed(2)}%
+                      {(isresultData["percentage"])}%
                     </h3>
                   </div>
 
@@ -301,7 +333,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm">League Points</p>
 
                     <h3 className="text-green-400 text-xl font-bold mt-2">
-                      {Math.floor(chngPrice * 10)}
+                      {Math.floor((isresultData["percentage"]*10))}
                     </h3>
                   </div>
                 </div>
@@ -328,125 +360,122 @@ const Prediction = () => {
             )}
 
             {/* Ongoing Prediction */}
-            <div
-              className={
-                result === true
-                  ? "hidden"
-                  : "bg-linear-to-br from-blue-950 to-blue-700 rounded-2xl shadow-lg p-6 text-white"
-              }
-            >
-              <h2 className="text-2xl font-bold mb-6">Ongoing Prediction</h2>
-              {predictData ? (
-                <div className="space-y-5">
-                  <div>
-                    <p className="text-blue-200 text-sm">Stock</p>
+            {predictData && (
+              <div
+                className={
+                  isresultData?.status === "completed"
+                    ? "hidden"
+                    : "bg-linear-to-br from-blue-950 to-blue-700 rounded-2xl shadow-lg p-6 text-white"
+                }
+              >
+                <div>
+                  <h2 className="text-2xl font-bold mb-6">
+                    Ongoing Prediction
+                  </h2>
 
-                    <h3 className="text-2xl font-bold">
-                      {predictData["stock"]}.
-                    </h3>
-                  </div>
-
-                  <div className="flex justify-between">
+                  <div className="space-y-5">
                     <div>
-                      <p className="text-blue-200 text-sm">Prediction</p>
+                      <p className="text-blue-200 text-sm">Stock</p>
 
-                      <h3 className="text-green-400 font-bold text-xl">
-                        {predictData["prediction"]}
+                      <h3 className="text-2xl font-bold">
+                        {predictData["stock"]}.
                       </h3>
                     </div>
 
-                    <div>
-                      <p className="text-blue-200 text-sm">Reference Price</p>
+                    <div className="flex justify-between">
+                      <div>
+                        <p className="text-blue-200 text-sm">Prediction</p>
 
-                      <h3 className="font-bold text-xl">
-                        ${predictData["referencePrice"]}
+                        <h3 className="text-green-400 font-bold text-xl">
+                          {predictData["prediction"]}
+                        </h3>
+                      </div>
+
+                      <div>
+                        <p className="text-blue-200 text-sm">Reference Price</p>
+
+                        <h3 className="font-bold text-xl">
+                          ${predictData["referencePrice"]}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-blue-200 text-sm">Submitted</p>
+
+                      <h3 className="font-semibold">
+                        {predictData["predictionDate"]}
                       </h3>
                     </div>
-                  </div>
 
-                  <div>
-                    <p className="text-blue-200 text-sm">Submitted</p>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <p className="text-blue-200 text-sm">Status</p>
 
-                    <h3 className="font-semibold">
-                      {predictData["predictionDate"]}
-                    </h3>
-                  </div>
-
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <p className="text-blue-200 text-sm">Status</p>
-
-                    <h2 className="text-yellow-300 font-bold text-lg">
-                      {predictData["status"].toUpperCase()}
-                    </h2>
-                  </div>
-                  <button
-                    onClick={checkResult}
-                    className={
-                      "bg-cyan-500 hover:bg-cyan-700 text-white px-2 py-3 rounded-xl font-semibold transition"
-                    }
-                    value="DOWN"
-                  >
-                    Check Result
-                  </button>
-                </div>
-              ) : (
-                // default page when nothing in ongoing prediction
-                <div className="space-y-5">
-                  <div>
-                    <p className="text-blue-200 text-sm">Stock</p>
-
-                    <h3 className="text-2xl font-bold">Apple Inc.</h3>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="text-blue-200 text-sm">Prediction</p>
-
-                      <h3 className="text-green-400 font-bold text-xl">UP</h3>
+                      <h2 className="text-yellow-300 font-bold text-lg">
+                        {predictData["status"].toUpperCase()}
+                      </h2>
                     </div>
-
-                    <div>
-                      <p className="text-blue-200 text-sm">Target Price</p>
-
-                      <h3 className="font-bold text-xl">$205</h3>
-                    </div>
+                    <button
+                      onClick={checkResult}
+                      className={
+                        "bg-cyan-500 hover:bg-cyan-700 text-white px-2 py-3 rounded-xl font-semibold transition"
+                      }
+                      value="DOWN"
+                    >
+                      Check Result
+                    </button>
                   </div>
-
-                  <div>
-                    <p className="text-blue-200 text-sm">Submitted</p>
-
-                    <h3 className="font-semibold">Today • 11:24 AM</h3>
-                  </div>
-
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <p className="text-blue-200 text-sm">Status</p>
-
-                    <h2 className="text-yellow-300 font-bold text-lg">
-                      Waiting for Market Close...
-                    </h2>
-                  </div>
-                  <button
-                    className="bg-gray-500 hover:bg-red-600 text-white px-2 py-3 rounded-xl font-semibold transition"
-                    value="DOWN"
-                  >
-                    Claim Points
-                  </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center">
-          <h1 className="text-center font-bold">
-            Click Below Button To Start Prediction
-          </h1>
+        // <div className="flex flex-col justify-center items-center">
+        //   <h1 className="text-center font-bold">
+        //     Click Below Button To Start Prediction
+        //   </h1>
+
+        //   <button
+        //     className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition w-1/2"
+        //     onClick={registerPred}
+        //   >
+        //     Start
+        //   </button>
+        // </div>
+        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-10 flex flex-col items-center text-center shadow-lg  mx-auto">
+          <div className="w-20 h-20 rounded-full bg-blue-500/20 flex items-center justify-center mb-6">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-10 h-10 text-blue-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 17v-6h13M9 17l-4-4m4 4l-4 4"
+              />
+            </svg>
+          </div>
+
+          <h2 className="text-3xl font-bold text-white mb-3">
+            Prediction League
+          </h2>
+
+          <p className="text-slate-300 max-w-md leading-7 mb-8">
+            Join the Prediction League and forecast whether a stock will move
+            higher or lower in the next trading session. Build your accuracy,
+            earn league points, and climb the rankings.
+          </p>
 
           <button
-            className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition w-1/2"
             onClick={registerPred}
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-300 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-blue-500/30"
           >
-            Start
+            Start Prediction
           </button>
         </div>
       )}
