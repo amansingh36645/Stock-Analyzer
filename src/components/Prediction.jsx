@@ -11,14 +11,14 @@ const Prediction = () => {
   const [lose, setLose] = useState(0);
   const [prevPrice, setprevPrice] = useState();
   const [chngPrice, setchngPrice] = useState();
-  const [price, setPrice] = useState(); // this state will use for tomorrow price
-  // const [finalPrice, setfinalPrice] = useState();
+  const [price, setPrice] = useState();
   const [register, setRegister] = useState(false);
   const [predictData, setpredictData] = useState();
   const [result, setResult] = useState();
   const [isPrection, setisPrection] = useState();
   const [isPrediction, setisPrediction] = useState(false);
   const [isresultData, setisresultData] = useState();
+  const [isRewardPoint, setisRewardPoint] = useState();
 
   // fresh login one time update data
   const registerPred = () => {
@@ -116,21 +116,28 @@ const Prediction = () => {
         let result = chngPercentage * 10;
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
+        localStorage.setItem("rewardPoint", result)
+        console.log(data);
+        
         setPoints(finalValue);
         setisPrection("Correct");
       } else if (
         data < predictData["referencePrice"] &&
         predictData["prediction"] === "DOWN"
       ) {
-        let result = chngPercentage * 10;
+        let result = Math.abs(chngPercentage) * 10;
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
+        localStorage.setItem("rewardPoint", result)
+        console.log(result);
         setPoints(finalValue);
         setisPrection("Correct");
       } else {
         let result = chngPercentage * 10;
         let finalValue = Math.floor(pointsValue - result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
+        localStorage.setItem("rewardPoint", result)
+        console.log(data);
         setPoints(finalValue);
         setisPrection("Wrong");
       }
@@ -150,10 +157,38 @@ const Prediction = () => {
     if (resultData) {
       setisresultData(resultData);
     }
+    let rewardPoint = JSON.parse(localStorage.getItem("rewardPoint"))
+    if(rewardPoint) {
+      setisRewardPoint(rewardPoint);
+    }
   }, [result]);
 
+  //button condition for valid result check
+  const isResultAvailable = () => {
+    if (!predictData) return false;
+
+    const now = new Date();
+    const predictionDate = new Date(predictData.predictionDate);
+
+    // Market opens at 9:20 AM
+    const marketOpen = new Date(predictionDate);
+    marketOpen.setDate(marketOpen.getDate() + 1);
+    marketOpen.setHours(9, 35, 0, 0);
+    return now >= marketOpen;
+  };
+
   //reset prediction function
-  const resetPrediction = () => {};
+  const resetPrediction = () => {
+    localStorage.removeItem("rewardPoint")
+    localStorage.removeItem("resultObj")
+    localStorage.removeItem("data")
+    localStorage.removeItem("Result")
+    setpredictData(null)
+    setResult(false)
+    setisresultData(null);
+  };
+
+
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -334,7 +369,7 @@ const Prediction = () => {
                     <p className="text-gray-400 text-sm">League Points</p>
 
                     <h3 className="text-green-400 text-xl font-bold mt-2">
-                      {Math.floor(isresultData["percentage"] * 10)}
+                      {Math.floor(isRewardPoint)}
                     </h3>
                   </div>
                 </div>
@@ -418,13 +453,17 @@ const Prediction = () => {
                     </div>
                     <button
                       onClick={checkResult}
-                      className={
-                        "bg-cyan-500 hover:bg-cyan-700 text-white px-2 py-3 rounded-xl font-semibold transition"
-                      }
+                      className={`px-6 py-3 rounded-xl font-semibold transition ${
+                        isResultAvailable()
+                          ? "bg-blue-600 hover:bg-blue-700 text-white"
+                          : "bg-gray-500 cursor-not-allowed text-gray-300"
+                      }`}
                       value="DOWN"
+                      disabled={!isResultAvailable()}
                     >
                       Check Result
                     </button>
+                    <p className="text-gray-300">(Check result after 9:35 AM) </p>
                   </div>
                 </div>
               </div>
@@ -432,18 +471,6 @@ const Prediction = () => {
           </div>
         </div>
       ) : (
-        // <div className="flex flex-col justify-center items-center">
-        //   <h1 className="text-center font-bold">
-        //     Click Below Button To Start Prediction
-        //   </h1>
-
-        //   <button
-        //     className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition w-1/2"
-        //     onClick={registerPred}
-        //   >
-        //     Start
-        //   </button>
-        // </div>
         <div className="bg-slate-800 border border-slate-700 rounded-2xl p-10 flex flex-col items-center text-center shadow-lg  mx-auto">
           <div className="w-20 h-20 rounded-full bg-blue-500/20 flex items-center justify-center mb-6">
             <svg
