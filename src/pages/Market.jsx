@@ -21,8 +21,6 @@ const Market = () => {
       setGainer(gainerData);
       setLosers(loserData);
       setmarketStatus(marketData);
-
-      console.log(marketData);
     } catch (error) {
       console.log(error);
     }

@@ -145,7 +145,7 @@ const Prediction = () => {
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-        console.log(data);
+        
         setPoints(finalValue);
         setisPrection("Correct");
         //setting win
@@ -166,7 +166,7 @@ const Prediction = () => {
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-        console.log(result);
+       
         setPoints(finalValue);
         setisPrection("Correct");
         //setting win
@@ -184,7 +184,7 @@ const Prediction = () => {
         let finalValue = Math.floor(pointsValue - result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-        console.log(data);
+        
         setPoints(finalValue);
         setisPrection("Wrong");
         //resetting streak back to 0
@@ -201,7 +201,7 @@ const Prediction = () => {
 
       setResult(true);
       localStorage.setItem("Result", "true");
-      console.log(response);
+      
     } catch (error) {
       console.error(error);
     }

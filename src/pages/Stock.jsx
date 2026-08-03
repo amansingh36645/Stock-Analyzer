@@ -58,7 +58,7 @@ const Stock = () => {
       settrailingPE(data.TrailingPE);
       setBookValue(data.BookValue);
     } catch (error) {
-      console.log("API LIMIT REACHED");
+      console.log(error);
     }
   };
 
