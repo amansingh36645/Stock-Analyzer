@@ -17,7 +17,7 @@ const Navbar = () => {
   }, [inputValue]);
 
   return (
-    <header className="bg-gradient-to-r from-blue-950 to-blue-700 shadow-lg sticky top-0 z-50 w-full">
+    <header className="bg-linear-to-r from-blue-950 to-blue-700 shadow-lg sticky top-0 z-50 w-full">
       <nav className="flex items-center justify-between px-6 lg:px-8 py-5">
         {/* Logo */}
 
@@ -27,7 +27,7 @@ const Navbar = () => {
           </div>
 
           <div>
-            <h1 className="text-2xl font-bold text-white">StockerHub</h1>
+            <h1 className="text-2xl font-bold text-white">Market Pulse</h1>
 
             <p className="text-blue-200 text-xs">Stock Analysis Platform</p>
           </div>
@@ -63,18 +63,6 @@ const Navbar = () => {
             placeholder="Search Stocks..."
             className="w-80 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-gray-300 px-5 py-3 outline-none focus:border-blue-300"
           />
-        </div>
-
-        {/* Desktop Buttons */}
-
-        <div className="hidden lg:flex gap-4">
-          <button className="text-white border border-white px-5 py-2 rounded-xl hover:bg-white hover:text-blue-900 transition">
-            Login
-          </button>
-
-          <button className="bg-white text-blue-900 px-5 py-2 rounded-xl font-semibold hover:bg-blue-100 transition">
-            Sign Up
-          </button>
         </div>
 
         {/* Mobile Hamburger */}
@@ -141,16 +129,6 @@ const Navbar = () => {
               className="w-full rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-gray-300 px-4 py-3 outline-none"
             />
           </div>
-
-          {/* Buttons */}
-
-          <button className="mt-4 border border-white py-3 rounded-xl hover:bg-white hover:text-blue-900 transition">
-            Login
-          </button>
-
-          <button className="bg-white text-blue-900 py-3 rounded-xl font-semibold hover:bg-blue-100 transition">
-            Sign Up
-          </button>
         </div>
       </div>
     </header>

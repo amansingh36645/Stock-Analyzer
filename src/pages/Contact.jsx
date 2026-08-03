@@ -48,10 +48,13 @@ const Contact = () => {
   return (
     <div className="min-h-screen">
       <div className="bg-linear-to-t from-blue-800 to-blue-950 px-5 sm:px-8 lg:px-10 py-10 h-auto sm:h-64 flex flex-col justify-center">
-        <h1 className="text-white text-3xl sm:text-4xl font-bold">Contact Us</h1>
+        <h1 className="text-white text-3xl sm:text-4xl font-bold">
+          Contact Us
+        </h1>
         <p className="text-gray-200">
-          Looking for a design partner? <br />
-          You Found
+          Have questions or feedback?
+          <br />
+          We'd love to hear from you.
         </p>
       </div>
       <div>
@@ -69,9 +72,7 @@ const Contact = () => {
           // transition={Bounce}
         />
       </div>
-      <div
-        className="bg-gray-100 flex flex-col lg:flex-row w-full p-5 gap-10"
-      >
+      <div className="bg-gray-100 flex flex-col lg:flex-row w-full p-5 gap-10">
         <div className="w-full lg:w-1/2 flex flex-col gap-5 justify-center">
           <h1 className="text-blue-950 text-3xl sm:text-4xl font-bold">
             What will be next step?

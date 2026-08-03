@@ -420,7 +420,9 @@ const Home = () => {
             and powerful tools designed to help you invest with confidence.
           </p>
 
-          <Link className="inline-block bg-yellow-400 text-blue-950 font-bold px-8 lg:px-10 py-4 rounded-xl hover:scale-105 transition duration-300">
+          <Link 
+          to="/stock"
+          className="inline-block bg-yellow-400 text-blue-950 font-bold px-8 lg:px-10 py-4 rounded-xl hover:scale-105 transition duration-300">
             Get Started
           </Link>
         </div>
