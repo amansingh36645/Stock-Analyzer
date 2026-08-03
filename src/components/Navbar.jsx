@@ -1,24 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import { StockDataName } from "../context/StockName";
 
 const Navbar = () => {
   const [stockName, setstockName] = useContext(StockDataName);
   const [inputValue, setinputValue] = useState("IBM");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setstockName(inputValue);
     }, 1000);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [inputValue]);
 
   return (
-    <header className="bg-linear-to-r from-blue-950 to-blue-700 shadow-lg sticky top-0 z-10 w-full">
-      <nav className="flex items-center justify-between px-8 py-5 ">
+    <header className="bg-gradient-to-r from-blue-950 to-blue-700 shadow-lg sticky top-0 z-50 w-full">
+      <nav className="flex items-center justify-between px-6 lg:px-8 py-5">
         {/* Logo */}
 
         <Link to="/" className="flex items-center gap-3">
@@ -33,9 +33,9 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* Menu */}
+        {/* Desktop Menu */}
 
-        <div className="flex items-center gap-10 font-medium text-white">
+        <div className="hidden lg:flex items-center gap-10 font-medium text-white">
           <Link className="hover:text-blue-200 transition" to="/stock">
             Stocks
           </Link>
@@ -53,23 +53,21 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Search */}
+        {/* Desktop Search */}
 
-        <div className="relative">
+        <div className="hidden lg:block relative">
           <input
             value={inputValue}
-            onChange={(e) => {
-              setinputValue(e.target.value);
-            }}
+            onChange={(e) => setinputValue(e.target.value)}
             type="text"
             placeholder="Search Stocks..."
             className="w-80 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-gray-300 px-5 py-3 outline-none focus:border-blue-300"
           />
         </div>
 
-        {/* Buttons */}
+        {/* Desktop Buttons */}
 
-        <div className="flex gap-4">
+        <div className="hidden lg:flex gap-4">
           <button className="text-white border border-white px-5 py-2 rounded-xl hover:bg-white hover:text-blue-900 transition">
             Login
           </button>
@@ -78,7 +76,83 @@ const Navbar = () => {
             Sign Up
           </button>
         </div>
+
+        {/* Mobile Hamburger */}
+
+        <button
+          className="lg:hidden text-white"
+          onClick={() => setMenuOpen(true)}
+        >
+          <Menu size={30} />
+        </button>
       </nav>
+
+      {/* Overlay */}
+
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        />
+      )}
+
+      {/* Mobile Sidebar */}
+
+      <div
+        className={`fixed top-0 right-0 h-screen w-80 bg-blue-950 z-50 shadow-2xl transform transition-transform duration-300 ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Close */}
+
+        <div className="flex justify-end p-5">
+          <button onClick={() => setMenuOpen(false)}>
+            <X size={30} className="text-white" />
+          </button>
+        </div>
+
+        {/* Links */}
+
+        <div className="flex flex-col gap-6 px-6 text-white text-lg font-medium">
+          <Link onClick={() => setMenuOpen(false)} to="/stock">
+            Stocks
+          </Link>
+
+          <Link onClick={() => setMenuOpen(false)} to="/market">
+            Markets
+          </Link>
+
+          <Link onClick={() => setMenuOpen(false)} to="/news">
+            News
+          </Link>
+
+          <Link onClick={() => setMenuOpen(false)} to="/contact">
+            Contact
+          </Link>
+
+          {/* Search */}
+
+          <div className="pt-4 border-t border-white/20">
+            <input
+              value={inputValue}
+              onChange={(e) => setinputValue(e.target.value)}
+              type="text"
+              placeholder="Search Stocks..."
+              className="w-full rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-gray-300 px-4 py-3 outline-none"
+            />
+          </div>
+
+          {/* Buttons */}
+
+          <button className="mt-4 border border-white py-3 rounded-xl hover:bg-white hover:text-blue-900 transition">
+            Login
+          </button>
+
+          <button className="bg-white text-blue-900 py-3 rounded-xl font-semibold hover:bg-blue-100 transition">
+            Sign Up
+          </button>
+        </div>
+      </div>
     </header>
   );
 };

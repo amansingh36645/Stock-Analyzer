@@ -28,9 +28,9 @@ const Market = () => {
     }
   };
 
-  // useEffect(() => {
-  //   stkGainLose();
-  // }, []);
+  useEffect(() => {
+    stkGainLose();
+  }, []);
 
   return (
     <div className="bg-slate-100 min-h-screen p-8">
@@ -55,7 +55,7 @@ const Market = () => {
                   <div className="flex justify-between">
                     <span>{e.ticker}</span>
                     <span className="text-green-600 font-semibold">
-                      +{e.change_percentage}
+                      +{(e.change_percentage).toFixed(2)}
                     </span>
                   </div>
                 );
@@ -79,7 +79,7 @@ const Market = () => {
                   <div className="flex justify-between">
                     <span>{e.ticker}</span>
                     <span className="text-red-600 font-semibold">
-                      {e.change_percentage}
+                      {(e.change_percentage).toFixed(2)}
                     </span>
                   </div>
                 );
@@ -101,21 +101,23 @@ const Market = () => {
 
         <div className="grid grid-cols-5 gap-5">
           {marketStatus ? (
-            marketStatus.slice(0, 5).map((e) => {
+            marketStatus.slice(1, 6).map((e) => {
               return (
                 <div className="bg-slate-50 rounded-xl p-4">
                   <p className="text-slate-500">{e.market_type}</p>
                   <h3 className="font-bold text-lg">{e.primary_exchanges}</h3>
                   <p className="text-green-600">{e.current_status}</p>
+                  <p className="text-green-600">{e.local_open}</p>
                 </div>
               );
             })
           ) : (
             <div className="bg-slate-50 rounded-xl p-4">
-              <p className="text-slate-500">S&P 500</p>
-              <h3 className="font-bold text-lg">6,432</h3>
-              <p className="text-green-600">+0.65%</p>
+              <p className="text-slate-500">404 Error</p>
+              <h3 className="font-bold text-lg">API LIMIT REACHED</h3>
+              <p className="text-green-600">+0.00%</p>
             </div>
+
           )}
         </div>
       </div>

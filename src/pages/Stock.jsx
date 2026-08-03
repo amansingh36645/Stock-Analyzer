@@ -67,11 +67,11 @@ const Stock = () => {
   // }, []);
 
   return (
-    <div className="bg-[#F5F7FB] min-h-screen p-8">
+    <div className="bg-[#F5F7FB] min-h-screen p-4 sm:p-6 lg:p-8">
       {/* Header */}
 
-      <div className="bg-linear-to-r from-blue-950 to-blue-700 rounded-3xl p-8 text-white shadow-xl">
-        <div className="flex justify-between items-center">
+      <div className="bg-linear-to-r from-blue-950 to-blue-700 rounded-3xl p-5 sm:p-6 lg:p-8 text-white shadow-xl">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
           <div className="flex items-center gap-5">
             {/* <img
               className="w-18 h-18 rounded-full border-2 border-white"
@@ -80,7 +80,7 @@ const Stock = () => {
             /> */}
 
             <div>
-              <h1 className="text-4xl font-bold">{name}</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold wrap-break-word">{name}</h1>
 
               <p className="text-blue-200 mt-2">
                 
@@ -89,25 +89,22 @@ const Stock = () => {
             </div>
           </div>
 
-          <div className="text-right">
-            <h1 className="text-5xl font-bold">${price}</h1>
+          <div className="text-left lg:text-right w-full lg:w-auto">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">${price}</h1>
 
-            <p className="text-blue-200 font-semibold text-xl">Book Value: {bookValue}</p>
+            <p className="text-blue-200 font-semibold text-base sm:text-lg lg:text-xl">Book Value: {bookValue}</p>
           </div>
         </div>
       </div>
 
       {/* Chart */}
 
-      <div className="bg-white rounded-3xl shadow-lg p-6 mt-8">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-950">
+      <div className="bg-white rounded-3xl shadow-lg p-4 sm:p-6 mt-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <h1 className="text-xl sm:text-2xl font-bold text-blue-950">
             Stock Performance
           </h1>
 
-          <div className="flex gap-3 text-2xl">
-            {name}
-          </div>
         </div>
 
         <div className="h-112.5 rounded-2xl border-2 border-dashed border-gray-300 mt-6 flex items-center justify-center">
@@ -117,111 +114,111 @@ const Stock = () => {
 
       {/* Quick Stats */}
 
-      <div className="grid grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">Market Cap</p>
-          <h2 className="text-3xl font-bold mt-2">${marketCap}B</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mt-2">${marketCap}B</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">P/E Ratio</p>
-          <h2 className="text-3xl font-bold mt-2">{peRatio}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mt-2">{peRatio}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">Dividned</p>
-          <h2 className="text-3xl font-bold mt-2">{dividend}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mt-2">{dividend}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">52W High</p>
-          <h2 className="text-3xl font-bold mt-2">${weekHigh}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mt-2">${weekHigh}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">52W Low</p>
-          <h2 className="text-3xl font-bold mt-2">${weekLow}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mt-2">${weekLow}</h2>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-5">
           <p className="text-gray-500">TraIling PE</p>
-          <h2 className="text-3xl font-bold mt-2">{trailingPE}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mt-2">{trailingPE}</h2>
         </div>
       </div>
 
       {/* About */}
 
-      <div className="bg-white rounded-3xl shadow-lg p-8 mt-8">
-        <h1 className="text-3xl font-bold text-blue-950 mb-5">About Company</h1>
+      <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8 mt-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-blue-950 mb-5">About Company</h1>
 
-        <p className="text-gray-600 leading-8">{desc}</p>
+        <p className="text-gray-600 leading-7 lg:leading-8">{desc}</p>
       </div>
 
       {/* Company Details */}
 
-      <div className="grid grid-cols-2 gap-8 mt-8">
-        <div className="bg-white rounded-3xl shadow-lg p-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8">
           <h1 className="text-2xl font-bold text-blue-950 mb-6">
             Company Information
           </h1>
 
           <div className="space-y-5">
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Address</span>
-              <span className="font-semibold">{address}</span>
+              <span className="font-semibold wrap-break-word">{address}</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Sector</span>
-              <span className="font-semibold">{sector}</span>
+              <span className="font-semibold wrap-break-word">{sector}</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Industry</span>
-              <span className="font-semibold">{industry}</span>
+              <span className="font-semibold wrap-break-word">{industry}</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Official Site</span>
-              <span className="font-semibold">{officialSite}</span>
+              <span className="font-semibold wrap-break-word">{officialSite}</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Asset Type</span>
-              <span className="font-semibold">{assetType}</span>
+              <span className="font-semibold wrap-break-word">{assetType}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-8">
+        <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8">
           <h1 className="text-2xl font-bold text-blue-950 mb-6">
             Financial Highlights
           </h1>
 
           <div className="space-y-5">
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Revenue</span>
-              <span className="font-semibold">{revenueTTM}B</span>
+              <span className="font-semibold wrap-break-word">{revenueTTM}B</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Share Float</span>
-              <span className="font-semibold">{shareFloat}</span>
+              <span className="font-semibold wrap-break-word">{shareFloat}</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>EPS</span>
-              <span className="font-semibold">{eps}</span>
+              <span className="font-semibold wrap-break-word">{eps}</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>ROE</span>
-              <span className="font-semibold">{roe}%</span>
+              <span className="font-semibold wrap-break-word">{roe}%</span>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0">
               <span>Profit Margin</span>
-              <span className="font-semibold">{profitMargin}</span>
+              <span className="font-semibold wrap-break-word">{profitMargin}</span>
             </div>
           </div>
         </div>

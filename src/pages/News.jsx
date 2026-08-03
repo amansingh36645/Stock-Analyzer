@@ -32,12 +32,12 @@ const News = () => {
     randomCategory();
   }, []);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [category]);
+  useEffect(() => {
+    fetchData();
+  }, [category]);
 
   return (
-    <div className="h-screen">
+    <div className="">
       {loading ? (
         <NewsPageSkeleton />
       ) : (
