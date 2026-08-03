@@ -38,7 +38,7 @@ const Prediction = () => {
     setRegister(true);
     setPoints(1000);
     setPrediction(0);
-    setAccuracy(0)
+    setAccuracy(0);
     setStreak(0);
     setWin(0);
     setLose(0);
@@ -54,10 +54,10 @@ const Prediction = () => {
 
   //caculate accuracy
   useEffect(() => {
-    if(win === 0) return 0;
+    if (win === 0) return 0;
     let accuracyPercentage = ((win / prediction) * 100).toFixed(2);
     setAccuracy(accuracyPercentage);
-  }, [win,lose]);
+  }, [win, lose]);
 
   //fetch stock price open high low close
   const fetchStockPrice = async () => {
@@ -244,44 +244,54 @@ const Prediction = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6">
       {/* Header */}
       {register === true || localStorage.getItem("Registeration") === "true" ? (
         <div>
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-6 mb-8">
             <div>
-              <h1 className="text-3xl font-bold">Prediction League</h1>
-              <p className="text-gray-400">
+              <h1 className="text-2xl sm:text-3xl font-bold">
+                Prediction League
+              </h1>
+              <p className="text-gray-400 mt-1">
                 Predict tomorrow's movement and earn virtual points.
               </p>
             </div>
 
-            <div className="bg-green-500/20 text-green-400 px-5 py-3 rounded-xl font-semibold">
+            <div className="bg-green-500/20 text-green-400 px-5 py-3 rounded-xl font-semibold w-fit">
               ⭐ {points} Points
             </div>
           </div>
           {/* Stats */}
-          <div className="grid md:grid-cols-4 gap-5 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             <div className="bg-gray-400 rounded-xl p-5">
               <p className="text-gray-700 text-sm">Accuracy</p>
-              <h2 className="text-3xl font-bold mt-2">{accuracy}%</h2>
+
+              <h2 className="text-2xl sm:text-3xl font-bold mt-2">
+                {accuracy}%
+              </h2>
             </div>
 
             <div className="bg-gray-400 rounded-xl p-5">
               <p className="text-gray-700 text-sm">Current Streak</p>
-              <h2 className="text-3xl font-bold mt-2 text-orange-400">
+
+              <h2 className="text-2xl sm:text-3xl font-bold mt-2 text-orange-400">
                 {streak} Wins
               </h2>
             </div>
 
             <div className="bg-gray-400 rounded-xl p-5">
               <p className="text-gray-700 text-sm">Predictions</p>
-              <h2 className="text-3xl font-bold mt-2">{prediction}</h2>
+
+              <h2 className="text-2xl sm:text-3xl font-bold mt-2">
+                {prediction}
+              </h2>
             </div>
 
             <div className="bg-gray-400 rounded-xl p-5">
               <p className="text-gray-700 text-sm">Win Rate</p>
-              <h2 className="text-3xl font-bold mt-2">
+
+              <h2 className="text-2xl sm:text-3xl font-bold mt-2">
                 {win}W / {lose}L
               </h2>
             </div>
@@ -295,44 +305,42 @@ const Prediction = () => {
                 className={
                   predictData
                     ? "hidden"
-                    : "bg-slate-800  border-slate-700 rounded-2xl shadow-lg border  p-6"
+                    : "bg-slate-800 border-slate-700 rounded-2xl shadow-lg border p-5 sm:p-6"
                 }
               >
-                <h2 className="text-2xl font-bold text-gray-200 mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-200 mb-6">
                   Make Prediction
                 </h2>
 
-                <div className="space-y-12">
+                <div className="space-y-8 sm:space-y-12">
                   <div>
                     <p className="text-gray-500 text-sm">Stock</p>
-                    <h3 className="text-blue-400 text-2xl font-bold">
+                    <h3 className="text-blue-400 text-xl sm:text-2xl font-bold break-all">
                       {name}.
                     </h3>
                   </div>
 
                   <div>
                     <p className="text-gray-500 text-sm">Current Price</p>
-                    <h2 className="text-3xl font-bold text-slate-400">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-400">
                       ${prevPrice}
                     </h2>
                   </div>
 
                   <div>
-                    <p className="text-gray-500 text-md">
+                    <p className="text-gray-500 text-sm sm:text-base leading-7">
                       Use your market analysis to predict whether this stock
                       will open higher or lower than its current price on the
                       next trading day.
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                     <button
                       onClick={() => {
                         predictStock("UP");
                       }}
-                      className={
-                        "bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer "
-                      }
+                      className="bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer"
                       value="UP"
                     >
                       Predict UP
@@ -342,7 +350,7 @@ const Prediction = () => {
                       onClick={() => {
                         predictStock("DOWN");
                       }}
-                      className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer "
+                      className="bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition cursor-pointer"
                       value="DOWN"
                     >
                       Predict DOWN
@@ -351,39 +359,40 @@ const Prediction = () => {
                 </div>
               </div>
             }
-
             {/* //result will display here */}
 
             {isresultData && (
-              <div className="bg-slate-900 rounded-2xl border border-slate-700 p-6 w-full mx-auto shadow-xl">
+              <div className="bg-slate-900 rounded-2xl border border-slate-700 p-4 sm:p-6 w-full mx-auto shadow-xl">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
                   <div>
-                    <h2 className="text-2xl font-bold text-white">
+                    <h2 className="text-xl sm:text-2xl font-bold text-white">
                       Prediction Result
                     </h2>
-                    <p className="text-gray-400 text-sm">
+
+                    <p className="text-gray-400 text-sm break-all">
                       {isresultData["stock"]}.
                     </p>
                   </div>
 
-                  <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full font-semibold">
+                  <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-full font-semibold w-fit">
                     {isPrection} Prediction
                   </div>
                 </div>
 
                 {/* Comparison */}
-                <div className="grid grid-cols-2 gap-5">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="bg-slate-800 rounded-xl p-5">
                     <p className="text-gray-400 text-sm mb-2">
                       Reference Price
                     </p>
 
-                    <h2 className="text-3xl font-bold text-white">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white">
                       ₹{isresultData["referencePrice"]}
                     </h2>
 
-                    <p className="text-gray-500 mt-2">
+                    <p className="text-gray-500 mt-2 text-sm sm:text-base">
                       Price when prediction was submitted
                     </p>
                   </div>
@@ -391,21 +400,23 @@ const Prediction = () => {
                   <div className="bg-slate-800 rounded-xl p-5">
                     <p className="text-gray-400 text-sm mb-2">Latest Price</p>
 
-                    <h2 className="text-3xl font-bold text-white">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white">
                       ₹{isresultData["currentPrice"]}
                     </h2>
 
-                    <p className="text-gray-500 mt-2">Current market price</p>
+                    <p className="text-gray-500 mt-2 text-sm sm:text-base">
+                      Current market price
+                    </p>
                   </div>
                 </div>
 
                 {/* Stats */}
 
-                <div className="grid grid-cols-3 gap-4 mt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
                   <div className="bg-slate-800 rounded-xl p-4 text-center">
                     <p className="text-gray-400 text-sm">Prediction</p>
 
-                    <h3 className="text-green-400 text-xl font-bold mt-2">
+                    <h3 className="text-green-400 text-lg sm:text-xl font-bold mt-2">
                       {isresultData["prediction"]}
                     </h3>
                   </div>
@@ -413,7 +424,7 @@ const Prediction = () => {
                   <div className="bg-slate-800 rounded-xl p-4 text-center">
                     <p className="text-gray-400 text-sm">Percentage Change</p>
 
-                    <h3 className="text-green-400 text-xl font-bold mt-2">
+                    <h3 className="text-green-400 text-lg sm:text-xl font-bold mt-2">
                       {isresultData["percentage"]}%
                     </h3>
                   </div>
@@ -421,7 +432,7 @@ const Prediction = () => {
                   <div className="bg-slate-800 rounded-xl p-4 text-center">
                     <p className="text-gray-400 text-sm">League Points</p>
 
-                    <h3 className="text-green-400 text-xl font-bold mt-2">
+                    <h3 className="text-green-400 text-lg sm:text-xl font-bold mt-2">
                       {Math.floor(isRewardPoint)}
                     </h3>
                   </div>
@@ -429,18 +440,18 @@ const Prediction = () => {
 
                 {/* Footer */}
 
-                <div className="mt-8 bg-green-500/10 border border-green-500 rounded-xl p-5 flex justify-between items-center">
+                <div className="mt-8 bg-green-500/10 border border-green-500 rounded-xl p-5 flex flex-col sm:flex-row justify-between sm:items-center gap-5">
                   <div>
                     <p className="text-gray-400 text-sm">Updated Balance</p>
 
-                    <h2 className="text-3xl font-bold text-white">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white">
                       {points} Points
                     </h2>
                   </div>
 
                   <button
                     onClick={resetPrediction}
-                    className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl font-semibold transition"
+                    className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl font-semibold transition w-full sm:w-auto"
                   >
                     Continue
                   </button>
@@ -454,28 +465,31 @@ const Prediction = () => {
                 className={
                   isresultData?.status === "completed"
                     ? "hidden"
-                    : "bg-linear-to-br from-blue-950 to-blue-700 rounded-2xl shadow-lg p-6 text-white"
+                    : "bg-linear-to-br from-blue-950 to-blue-700 rounded-2xl shadow-lg p-5 sm:p-6 text-white"
                 }
               >
                 <div>
-                  <h2 className="text-2xl font-bold mb-6">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-6">
                     Ongoing Prediction
                   </h2>
 
                   <div className="space-y-5">
+                    {/* Stock */}
                     <div>
                       <p className="text-blue-200 text-sm">Stock</p>
 
-                      <h3 className="text-2xl font-bold">
+                      <h3 className="text-xl sm:text-2xl font-bold break-all">
                         {predictData["stock"]}.
                       </h3>
                     </div>
 
-                    <div className="flex justify-between">
+                    {/* Prediction & Price */}
+
+                    <div className="flex flex-col sm:flex-row justify-between gap-5">
                       <div>
                         <p className="text-blue-200 text-sm">Prediction</p>
 
-                        <h3 className="text-green-400 font-bold text-xl">
+                        <h3 className="text-green-400 font-bold text-lg sm:text-xl">
                           {predictData["prediction"]}
                         </h3>
                       </div>
@@ -483,19 +497,23 @@ const Prediction = () => {
                       <div>
                         <p className="text-blue-200 text-sm">Reference Price</p>
 
-                        <h3 className="font-bold text-xl">
+                        <h3 className="font-bold text-lg sm:text-xl">
                           ${predictData["referencePrice"]}
                         </h3>
                       </div>
                     </div>
 
+                    {/* Submitted */}
+
                     <div>
                       <p className="text-blue-200 text-sm">Submitted</p>
 
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold wrap-break-word">
                         {predictData["predictionDate"]}
                       </h3>
                     </div>
+
+                    {/* Status */}
 
                     <div className="bg-white/10 rounded-xl p-4">
                       <p className="text-blue-200 text-sm">Status</p>
@@ -504,9 +522,12 @@ const Prediction = () => {
                         {predictData["status"].toUpperCase()}
                       </h2>
                     </div>
+
+                    {/* Button */}
+
                     <button
                       onClick={checkResult}
-                      className={`px-6 py-3 rounded-xl font-semibold transition ${
+                      className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold transition ${
                         isResultAvailable()
                           ? "bg-blue-600 hover:bg-blue-700 text-white"
                           : "bg-gray-500 cursor-not-allowed text-gray-300"
@@ -516,8 +537,9 @@ const Prediction = () => {
                     >
                       Check Result
                     </button>
-                    <p className="text-gray-300">
-                      (Check result after 9:35 AM){" "}
+
+                    <p className="text-gray-300 text-sm">
+                      (Check result after 9:35 AM)
                     </p>
                   </div>
                 </div>
@@ -526,11 +548,11 @@ const Prediction = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-10 flex flex-col items-center text-center shadow-lg  mx-auto">
-          <div className="w-20 h-20 rounded-full bg-blue-500/20 flex items-center justify-center mb-6">
+        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col items-center text-center shadow-lg mx-auto">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-blue-500/20 flex items-center justify-center mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-10 h-10 text-blue-400"
+              className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -544,11 +566,11 @@ const Prediction = () => {
             </svg>
           </div>
 
-          <h2 className="text-3xl font-bold text-white mb-3">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
             Prediction League
           </h2>
 
-          <p className="text-slate-300 max-w-md leading-7 mb-8">
+          <p className="text-slate-300 max-w-md leading-7 text-sm sm:text-base mb-8">
             Join the Prediction League and forecast whether a stock will move
             higher or lower in the next trading session. Build your accuracy,
             earn league points, and climb the rankings.
@@ -556,7 +578,7 @@ const Prediction = () => {
 
           <button
             onClick={registerPred}
-            className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-300 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-blue-500/30"
+            className="w-full sm:w-auto min-w-55 bg-blue-600 hover:bg-blue-700 transition-all duration-300 px-8 py-4 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-blue-500/30"
           >
             Start Prediction
           </button>

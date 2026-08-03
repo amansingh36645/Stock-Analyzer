@@ -47,8 +47,8 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="bg-linear-to-t from-blue-800  to-blue-950 p-10 h-64 flex flex-col justify-center">
-        <h1 className="text-white text-4xl font-bold">Contact Us</h1>
+      <div className="bg-linear-to-t from-blue-800 to-blue-950 px-5 sm:px-8 lg:px-10 py-10 h-auto sm:h-64 flex flex-col justify-center">
+        <h1 className="text-white text-3xl sm:text-4xl font-bold">Contact Us</h1>
         <p className="text-gray-200">
           Looking for a design partner? <br />
           You Found
@@ -70,11 +70,10 @@ const Contact = () => {
         />
       </div>
       <div
-        className="bg-gray-100 flex w-full p-5
-        "
+        className="bg-gray-100 flex flex-col lg:flex-row w-full p-5 gap-10"
       >
-        <div className="w-1/2 flex flex-col gap-5 justify-center">
-          <h1 className="text-blue-950 text-4xl font-bold">
+        <div className="w-full lg:w-1/2 flex flex-col gap-5 justify-center">
+          <h1 className="text-blue-950 text-3xl sm:text-4xl font-bold">
             What will be next step?
           </h1>
           <p className="font-semibold">
@@ -113,10 +112,10 @@ const Contact = () => {
           </div>
         </div>
         <div className="w-full lg:w-1/2">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden">
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden w-full">
             {/* Header */}
-            <div className="bg-linear-to-r from-blue-950 to-blue-700 text-white p-6">
-              <h2 className="text-2xl font-bold">Get in Touch</h2>
+            <div className="bg-linear-to-r from-blue-950 to-blue-700 text-white p-5 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold">Get in Touch</h2>
               <p className="text-blue-100 mt-2">
                 We'll get back to you within 24 hours.
               </p>
@@ -126,7 +125,7 @@ const Contact = () => {
             <form
               ref={form}
               onSubmit={sendEmail}
-              className="flex flex-col gap-5 p-8"
+              className="flex flex-col gap-5 p-5 sm:p-6 lg:p-8"
             >
               <div>
                 <label className="block mb-2 text-gray-700 font-medium">
@@ -155,7 +154,7 @@ const Contact = () => {
                   Message
                 </label>
                 <textarea
-                  rows="5"
+                  rows={4}
                   placeholder="Write your message..."
                   className="w-full border border-gray-300 rounded-xl px-4 py-3 resize-none outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-300 transition"
                 ></textarea>
@@ -164,7 +163,7 @@ const Contact = () => {
               <input
                 type="submit"
                 value={value}
-                className="bg-linear-to-r from-blue-950 to-blue-700 text-white py-3 rounded-xl font-semibold hover:scale-[1.02] hover:shadow-xl transition duration-300 cursor-pointer"
+                className="w-full bg-linear-to-r from-blue-950 to-blue-700 text-white py-3 rounded-xl font-semibold hover:scale-[1.02] hover:shadow-xl transition duration-300 cursor-pointer"
               />
             </form>
           </div>

@@ -81,9 +81,9 @@ const StockChart = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchChart();
-  // }, [stockName]);
+  useEffect(() => {
+    fetchChart();
+  }, [stockName]);
 
   return (
     <div>

@@ -24,7 +24,7 @@ const Home = () => {
 
         {/* ================= HERO SECTION ================= */}
 
-        <section className="relative z-10 min-h-screen flex items-center lg:items-center pt-28 pb-16">
+        <section className="relative z-10 min-h-screen flex items-center lg:items-center">
           <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-10 sm:py-14 lg:py-20 flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-16">
             {/* Left */}
 

@@ -62,9 +62,9 @@ const Stock = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchStock();
-  // }, []);
+  useEffect(() => {
+    fetchStock();
+  }, []);
 
   return (
     <div className="bg-[#F5F7FB] min-h-screen p-4 sm:p-6 lg:p-8">

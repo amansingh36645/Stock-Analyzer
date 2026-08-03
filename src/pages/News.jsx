@@ -41,15 +41,15 @@ const News = () => {
       {loading ? (
         <NewsPageSkeleton />
       ) : (
-        <div className="bg-linear-to-b from-slate-100 to-white">
+        <div className="bg-linear-to-b from-slate-100 to-white px-4 sm:px-6 lg:px-8 py-4">
           {/* heading 1 */}
           <div className=" ">
-            <h1 className="text-center text-4xl font-bold p-4">News</h1>
+            <h1 className="text-center text-3xl sm:text-4xl font-bold py-4">News</h1>
           </div>
           {/* news section 1 */}
           <div className="flex flex-col gap-10">
             {/* section 1 */}
-            <div className="grid grid-cols-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
               {news.slice(0, 3).map((e, idx) => {
                 return (
                   <div key={idx}>
@@ -66,7 +66,7 @@ const News = () => {
             </div>
 
             {/* section 1.1 */}
-            <div className="grid grid-cols-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
               {news.slice(3, 6).map((e, idx) => {
                 return (
                   <div key={idx}>
@@ -85,13 +85,13 @@ const News = () => {
 
           {/* heading 2 */}
           <div className=" ">
-            <h1 className=" text-4xl font-bold p-4">Global Market</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold py-4">Global Market</h1>
           </div>
           {/* news section 2 */}
 
           <div className="flex flex-col gap-10">
             {/* section 2 */}
-            <div className="grid grid-cols-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
               {news.slice(6, 9).map((e, idx) => {
                 return (
                   <div key={idx}>
@@ -107,7 +107,7 @@ const News = () => {
               })}
             </div>
             {/* section 2.1 */}
-            <div className="grid grid-cols-3 place-items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
               {news.slice(9, 12).map((e, idx) => {
                 return (
                   <div key={idx}>
@@ -125,11 +125,11 @@ const News = () => {
           </div>
 
           {/* horizontal scrolling cards */}
-          <h1 className=" text-4xl font-bold p-4">Trending News</h1>
-          <div className="flex gap-5 overflow-x-auto scroll-smooth p-5 horizontal-scroll mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold py-4">Trending News</h1>
+          <div className="flex gap-5 overflow-x-auto scroll-smooth py-5 horizontal-scroll mb-8">
             {news.slice(12, 24).map((e, idx) => {
               return (
-                <div key={idx}>
+                <div key={idx} className="w-full flex justify-center">
                   <NewsCard
                     layout="horizontal"
                     img={e.urlToImage}
