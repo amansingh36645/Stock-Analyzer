@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import axios from "axios";
-import { StockDataName } from "../context/StockName";
 
-const StockChart = () => {
-  const [stockName, setstockName] = useContext(StockDataName); 
+const StockChart = ({ chartData }) => {
   const [chart, setChart] = useState({
     series: [
       {
@@ -50,40 +47,18 @@ const StockChart = () => {
     },
   });
 
-  const fetchChart = async () => {
-    try {
-      let response_ohcl = await axios.get(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stockName}&apikey=XT8UR9G69J2A9HDE`,
-      );
-      let data = response_ohcl.data["Time Series (Daily)"];
-      const deciMalValue = (number) => Math.trunc(number * 100) / 100;
-      const mappedData = Object.keys(data).map((datetime) => ({
-        x: new Date(datetime),
-        y: [
-          deciMalValue(parseFloat(data[datetime]["1. open"])),
-          deciMalValue(parseFloat(data[datetime]["2. high"])),
-          deciMalValue(parseFloat(data[datetime]["3. low"])),
-          deciMalValue(parseFloat(data[datetime]["4. close"])),
-        ],
-      }));
-      setChart((prev) => ({
-        ...prev,
-        series: [
-          {
-            name: "candle",
-            type: "candlestick",
-            data: mappedData,
-          },
-        ],
-      }));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    fetchChart();
-  }, [stockName]);
+    setChart((prev) => ({
+      ...prev,
+      series: [
+        {
+          name: "candle",
+          type: "candlestick",
+          data: chartData || [],
+        },
+      ],
+    }));
+  }, [chartData]);
 
   return (
     <div>

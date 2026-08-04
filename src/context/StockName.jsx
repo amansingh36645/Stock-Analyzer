@@ -2,7 +2,7 @@ import React, { useState, createContext } from "react";
 
 export const StockDataName = createContext();
 const StockName = (props) => {
-  const [stockName, setStockName] = useState("IBM");
+  const [stockName, setStockName] = useState("AAPL");
 
   return (
     <div>

@@ -261,9 +261,8 @@ Frontend Developer passionate about creating modern, responsive, and user-friend
 
 ## 📬 Connect With Me
 
-* GitHub: https://github.com/yourusername
-* LinkedIn: https://linkedin.com/in/yourusername
-* Portfolio: https://yourportfolio.com
+* GitHub: https://github.com/amansingh36645
+* LinkedIn: https://www.linkedin.com/in/aman-singh-39503b124
 
 ---
 

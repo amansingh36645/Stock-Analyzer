@@ -5,7 +5,7 @@ import { StockDataName } from "../context/StockName";
 
 const Navbar = () => {
   const [stockName, setstockName] = useContext(StockDataName);
-  const [inputValue, setinputValue] = useState("IBM");
+  const [inputValue, setinputValue] = useState("AAPL");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {

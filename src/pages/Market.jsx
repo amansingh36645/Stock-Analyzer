@@ -21,6 +21,7 @@ const Market = () => {
       setGainer(gainerData);
       setLosers(loserData);
       setmarketStatus(marketData);
+      console.log(response_mktStatus)
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +54,7 @@ const Market = () => {
                   <div className="flex justify-between items-center gap-3">
                     <span className="font-medium wrap-break-word">{e.ticker}</span>
                     <span className="text-green-600 font-semibold">
-                      +{(e.change_percentage).toFixed(2)}
+                      +{e.change_percentage}
                     </span>
                   </div>
                 );
@@ -77,7 +78,7 @@ const Market = () => {
                   <div className="flex justify-between items-center gap-3">
                     <span className="font-medium wrap-break-word">{e.ticker}</span>
                     <span className="text-red-600 font-semibold">
-                      {(e.change_percentage).toFixed(2)}
+                      {e.change_percentage}
                     </span>
                   </div>
                 );
