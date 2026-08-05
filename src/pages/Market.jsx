@@ -27,9 +27,9 @@ const Market = () => {
     }
   };
 
-  // useEffect(() => {
-  //   stkGainLose();
-  // }, []);
+  useEffect(() => {
+    stkGainLose();
+  }, []);
 
   return (
     <div className="bg-slate-100 min-h-screen p-4 sm:p-6 lg:p-8">
