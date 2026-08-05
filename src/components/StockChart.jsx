@@ -66,7 +66,7 @@ const StockChart = ({ chartMap }) => {
         options={chart.options}
         series={chart.series}
         type="line"
-        height="100%"
+        height={425}
         width="100%"
       />
     </div>
