@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const StockChart = ({ chartData }) => {
+const StockChart = ({ chartMap }) => {
   const [chart, setChart] = useState({
     series: [
       {
@@ -54,11 +54,11 @@ const StockChart = ({ chartData }) => {
         {
           name: "candle",
           type: "candlestick",
-          data: chartData || [],
+          data: chartMap || [],
         },
       ],
     }));
-  }, [chartData]);
+  }, [chartMap]);
 
   return (
     <div>

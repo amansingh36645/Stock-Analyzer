@@ -13,7 +13,7 @@ const Market = () => {
       );
 
       let response_mktStatus = await axios.get(
-        "https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=XT8UR9G69J2A9HDE",
+        "https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=PXGG3EXVXEUZO060",
       );
       let gainerData = response.data.top_gainers;
       let loserData = response.data.top_losers;
@@ -21,21 +21,23 @@ const Market = () => {
       setGainer(gainerData);
       setLosers(loserData);
       setmarketStatus(marketData);
-      console.log(response_mktStatus)
+      console.log(response_mktStatus);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    stkGainLose();
-  }, []);
+  // useEffect(() => {
+  //   stkGainLose();
+  // }, []);
 
   return (
     <div className="bg-slate-100 min-h-screen p-4 sm:p-6 lg:p-8">
       {/* Heading */}
       <div className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-slate-800">Market Dashboard</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-slate-800">
+          Market Dashboard
+        </h1>
         <p className="text-slate-500 mt-2">
           Track market trends, signals, and global indices.
         </p>
@@ -52,7 +54,9 @@ const Market = () => {
               gainer.slice(1, 6).map((e) => {
                 return (
                   <div className="flex justify-between items-center gap-3">
-                    <span className="font-medium wrap-break-word">{e.ticker}</span>
+                    <span className="font-medium wrap-break-word">
+                      {e.ticker}
+                    </span>
                     <span className="text-green-600 font-semibold">
                       +{e.change_percentage}
                     </span>
@@ -76,7 +80,9 @@ const Market = () => {
               loser.slice(1, 6).map((e) => {
                 return (
                   <div className="flex justify-between items-center gap-3">
-                    <span className="font-medium wrap-break-word">{e.ticker}</span>
+                    <span className="font-medium wrap-break-word">
+                      {e.ticker}
+                    </span>
                     <span className="text-red-600 font-semibold">
                       {e.change_percentage}
                     </span>
@@ -104,7 +110,9 @@ const Market = () => {
               return (
                 <div className="bg-slate-50 rounded-xl p-4 wrap-break-word">
                   <p className="text-slate-500">{e.market_type}</p>
-                  <h3 className="font-bold text-base sm:text-lg wrap-break-word">{e.primary_exchanges}</h3>
+                  <h3 className="font-bold text-base sm:text-lg wrap-break-word">
+                    {e.primary_exchanges}
+                  </h3>
                   <p className="text-green-600">{e.current_status}</p>
                   <p className="text-green-600">{e.local_open}</p>
                 </div>
@@ -116,7 +124,6 @@ const Market = () => {
               <h3 className="font-bold text-lg">API LIMIT REACHED</h3>
               <p className="text-green-600">+0.00%</p>
             </div>
-
           )}
         </div>
       </div>

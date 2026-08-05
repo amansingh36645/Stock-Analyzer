@@ -169,23 +169,31 @@ src
 
 ## Home
 
-<img src="./screenshots/home.png" alt="Home"/>
+<img src="./screenshot/Home.png" alt="Home"/>
 
 ## Stock Analysis
 
-<img src="./screenshots/stocks.png" alt="Stocks"/>
+<img src="./screenshot/Stock.png" alt="Stocks"/>
 
 ## Market Dashboard
 
-<img src="./screenshots/market.png" alt="Market"/>
+<img src="./screenshot/Market.png" alt="Market"/>
 
 ## News
 
-<img src="./screenshots/news.png" alt="News"/>
+<img src="./screenshot/News.png" alt="News"/>
+
+## Contact
+
+<img src="./screenshot/Contact.png" alt="News"/>
 
 ## Prediction League
 
-<img src="./screenshots/prediction.png" alt="Prediction League"/>
+<img src="./screenshot/PredictionPage.png" alt="Prediction League"/>
+<img src="./screenshot/PredictionHome.png" alt="Prediction League"/>
+<img src="./screenshot/OngoingPrediction.png" alt="Prediction League"/>
+<img src="./screenshot/PredictionResult.png" alt="Prediction League"/>
+
 
 ---
 
