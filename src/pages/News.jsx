@@ -10,17 +10,18 @@ const News = () => {
 
   const randomCategory = () => {
     let randomNum = Math.floor(Math.random() * 5);
-    let arr = ["business", "general", "science", "technology", "entertainment"];
+    let arr = ["forex", "general", "crypto", "merger"];
     setCategory(arr[randomNum]);
   };
 
-  const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=675abaf9746748c399017b75b522fa1a`;
+  const apiUrl = `https://finnhub.io/api/v1/news?category=${category}&token=cremcchr01qnd5cvr330cremcchr01qnd5cvr33g`;
 
   const fetchData = async () => {
     try {
       setLoading(true);
       let response = await axios.get(apiUrl);
-      let data = response.data.articles;
+      let data = response.data;
+    
       setNews(data);
       setLoading(false);
     } catch (error) {
@@ -44,21 +45,23 @@ const News = () => {
         <div className="bg-linear-to-b from-slate-100 to-white px-4 sm:px-6 lg:px-8 py-4">
           {/* heading 1 */}
           <div className=" ">
-            <h1 className="text-center text-3xl sm:text-4xl font-bold py-4">News</h1>
+            <h1 className="text-center text-3xl sm:text-4xl font-bold py-4">
+              News
+            </h1>
           </div>
           {/* news section 1 */}
           <div className="flex flex-col gap-10">
             {/* section 1 */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
-              {news.slice(0, 3).map((e, idx) => {
+              {news.slice(0, 3).map((e) => {
                 return (
-                  <div key={idx}>
+                  <div key={e.id}>
                     <NewsCard
                       layout="horizontal"
-                      img={e.urlToImage}
-                      title={e.title}
-                      category={e.source.name}
-                      publish={e.publishedAt}
+                      img={e.image}
+                      title={e.headline}
+                      category={e.source}
+                      publish={e.datetime}
                     />
                   </div>
                 );
@@ -67,15 +70,15 @@ const News = () => {
 
             {/* section 1.1 */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
-              {news.slice(3, 6).map((e, idx) => {
+              {news.slice(3, 6).map((e) => {
                 return (
-                  <div key={idx}>
+                  <div key={e.id}>
                     <NewsCard
                       layout="vertical"
-                      img={e.urlToImage}
-                      title={e.title}
-                      category={e.source.name}
-                      publish={e.publishedAt}
+                      img={e.image}
+                      title={e.headline}
+                      category={e.source}
+                      publish={e.datetime}
                     />
                   </div>
                 );
@@ -85,7 +88,9 @@ const News = () => {
 
           {/* heading 2 */}
           <div className=" ">
-            <h1 className="text-3xl sm:text-4xl font-bold py-4">Global Market</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold py-4">
+              Global Market
+            </h1>
           </div>
           {/* news section 2 */}
 
@@ -97,10 +102,10 @@ const News = () => {
                   <div key={idx}>
                     <NewsCard
                       layout="horizontal"
-                      img={e.urlToImage}
-                      title={e.title}
-                      category={e.source.name}
-                      publish={e.publishedAt}
+                      img={e.image}
+                      title={e.headline}
+                      category={e.source}
+                      publish={e.datetime}
                     />
                   </div>
                 );
@@ -113,10 +118,10 @@ const News = () => {
                   <div key={idx}>
                     <NewsCard
                       layout="vertical"
-                      img={e.urlToImage}
-                      title={e.title}
-                      category={e.source.name}
-                      publish={e.publishedAt}
+                      img={e.image}
+                      title={e.headline}
+                      category={e.source}
+                      publish={e.datetime}
                     />
                   </div>
                 );
@@ -127,15 +132,15 @@ const News = () => {
           {/* horizontal scrolling cards */}
           <h1 className="text-3xl sm:text-4xl font-bold py-4">Trending News</h1>
           <div className="flex gap-5 overflow-x-auto scroll-smooth py-5 horizontal-scroll mb-8">
-            {news.slice(12, 24).map((e, idx) => {
+            {news.slice(12, 24).map((e) => {
               return (
-                <div key={idx} className="w-full flex justify-center">
+                <div key={e.id} className="w-full flex justify-center">
                   <NewsCard
                     layout="horizontal"
-                    img={e.urlToImage}
-                    title={e.title}
-                    category={e.source.name}
-                    publish={e.publishedAt}
+                    img={e.image}
+                    title={e.headline}
+                    category={e.source}
+                    publish={e.datetime}
                   />
                 </div>
               );
