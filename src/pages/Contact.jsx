@@ -25,7 +25,7 @@ const Contact = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            // transition: Bounce,
+            
           });
         },
         (error) => {
@@ -39,7 +39,7 @@ const Contact = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            // transition: Bounce,
+            
           });
         },
       );
