@@ -12,7 +12,7 @@ Analyze stocks, explore financial markets, read real-time news, and test your ma
 ![Responsive](https://img.shields.io/badge/Responsive-Mobile%20Ready-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-**🌐 Live Demo:** (Link Shortly)
+**🌐 Live Demo:** (https://stock-analyzer-nine-puce.vercel.app/)
 
 </div>
 
