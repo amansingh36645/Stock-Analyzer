@@ -21,7 +21,6 @@ const Market = () => {
       setGainer(gainerData);
       setLosers(loserData);
       setmarketStatus(marketData);
-      console.log(response_mktStatus);
     } catch (error) {
       console.log(error);
     }
@@ -51,9 +50,9 @@ const Market = () => {
           {/* here i have to fix the mapping will do tomorrow */}
           <div className="space-y-4">
             {gainer ? (
-              gainer.slice(1, 6).map((e) => {
+              gainer.slice(1, 6).map((e,idx) => {
                 return (
-                  <div className="flex justify-between items-center gap-3">
+                  <div key={idx} className="flex justify-between items-center gap-3">
                     <span className="font-medium wrap-break-word">
                       {e.ticker}
                     </span>
@@ -77,9 +76,9 @@ const Market = () => {
 
           <div className="space-y-4">
             {loser ? (
-              loser.slice(1, 6).map((e) => {
+              loser.slice(1, 6).map((e,idx) => {
                 return (
-                  <div className="flex justify-between items-center gap-3">
+                  <div key={idx} className="flex justify-between items-center gap-3">
                     <span className="font-medium wrap-break-word">
                       {e.ticker}
                     </span>

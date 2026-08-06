@@ -54,7 +54,7 @@ const Prediction = () => {
 
   //caculate accuracy
   useEffect(() => {
-    if (win === 0) return 0;
+    if (win === 0) return;
     let accuracyPercentage = ((win / prediction) * 100).toFixed(2);
     setAccuracy(accuracyPercentage);
   }, [win, lose]);
@@ -145,7 +145,7 @@ const Prediction = () => {
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-        
+
         setPoints(finalValue);
         setisPrection("Correct");
         //setting win
@@ -166,7 +166,7 @@ const Prediction = () => {
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-       
+
         setPoints(finalValue);
         setisPrection("Correct");
         //setting win
@@ -184,7 +184,7 @@ const Prediction = () => {
         let finalValue = Math.floor(pointsValue - result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-        
+
         setPoints(finalValue);
         setisPrection("Wrong");
         //resetting streak back to 0
@@ -201,7 +201,6 @@ const Prediction = () => {
 
       setResult(true);
       localStorage.setItem("Result", "true");
-      
     } catch (error) {
       console.error(error);
     }
@@ -209,10 +208,10 @@ const Prediction = () => {
   //useffect for result data
   useEffect(() => {
     let resultData = JSON.parse(localStorage.getItem("resultObj"));
+    let rewardPoint = JSON.parse(localStorage.getItem("rewardPoint"));
     if (resultData) {
       setisresultData(resultData);
     }
-    let rewardPoint = JSON.parse(localStorage.getItem("rewardPoint"));
     if (rewardPoint) {
       setisRewardPoint(rewardPoint);
     }
