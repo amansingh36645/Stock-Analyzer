@@ -20,16 +20,28 @@ const Prediction = () => {
   const [price, setPrice] = useState();
   const [register, setRegister] = useState(false);
   const [predictData, setpredictData] = useState();
-  const [result, setResult] = useState();
   const [isPrection, setisPrection] = useState();
-  const [isPrediction, setisPrediction] = useState(false);
   const [isresultData, setisresultData] = useState();
   const [isRewardPoint, setisRewardPoint] = useState();
+
+
+  //when component first load 
+  useEffect(() => {
+    const prediction = JSON.parse(localStorage.getItem("data"));
+    const result = JSON.parse(localStorage.getItem("resultObj"));
+    const rewardPoint = JSON.parse(localStorage.getItem("rewardPoint"));
+
+    
+    if (rewardPoint) setisRewardPoint(rewardPoint);
+
+    if (prediction) setpredictData(prediction);
+    if (result) setisresultData(result);
+}, []);
 
   // prediction start page and default settings
   const registerPred = () => {
     localStorage.setItem("Registeration", "true");
-    localStorage.setItem("Points", `1000`);
+    localStorage.setItem("Points", JSON.stringify(1000));
     localStorage.setItem("predictionCount", 0);
 
     localStorage.setItem("streak", 0);
@@ -57,7 +69,7 @@ const Prediction = () => {
     if (win === 0) return;
     let accuracyPercentage = ((win / prediction) * 100).toFixed(2);
     setAccuracy(accuracyPercentage);
-  }, [win, lose]);
+  }, [win, prediction]);
 
   //fetch stock price open high low close
   const fetchStockPrice = async () => {
@@ -85,12 +97,11 @@ const Prediction = () => {
       stock: `${name}`,
       prediction: `${direction}`,
       referencePrice: prevPrice,
-      predictionDate: `${new Date().toLocaleString()}`,
+      predictionDate: `${new Date().toISOString()}`,
       status: "pending",
     };
-    setisPrediction(true);
     localStorage.setItem("data", JSON.stringify(obj));
-
+    setpredictData(obj)
     //setting obj for prediction count
 
     let count = JSON.parse(localStorage.getItem("predictionCount"));
@@ -99,12 +110,6 @@ const Prediction = () => {
     setPrediction(finalCount);
   };
 
-  useEffect(() => {
-    let predictionData = JSON.parse(localStorage.getItem("data"));
-    if (predictionData) {
-      setpredictData(predictionData);
-    }
-  }, [isPrediction]);
 
   const checkResult = async () => {
     try {
@@ -120,32 +125,31 @@ const Prediction = () => {
       // store result in local storage
 
       let obj = {
-        stock: `${predictData["stock"]}`,
-        prediction: `${predictData["prediction"]}`,
-        referencePrice: `${predictData["referencePrice"]}`,
-        submittedDate: `${new Date().toLocaleString()}`,
+        stock: `${predictData.stock}`,
+        prediction: `${predictData.prediction}`,
+        referencePrice: `${predictData.referencePrice}`,
+        submittedDate: `${new Date().toISOString()}`,
         status: "completed",
         pointsAwarded: true,
         currentPrice: `${data.toFixed(2)}`,
         percentage: `${chngPercentage.toFixed(2)}`,
-        pointCredited: `${result}`,
       };
 
       localStorage.setItem("resultObj", JSON.stringify(obj));
-
+      setisresultData(obj)
       //calculation for prediction points and reward
 
       let pointsValue = JSON.parse(localStorage.getItem("Points"));
 
       if (
-        data > predictData["referencePrice"] &&
-        predictData["prediction"] === "UP"
+        data > predictData.referencePrice &&
+        predictData.prediction === "UP"
       ) {
         let result = chngPercentage * 10;
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-
+        setisRewardPoint(result)
         setPoints(finalValue);
         setisPrection("Correct");
         //setting win
@@ -159,14 +163,14 @@ const Prediction = () => {
         localStorage.setItem("streak", streakCount);
         setStreak(streakCount);
       } else if (
-        data < predictData["referencePrice"] &&
-        predictData["prediction"] === "DOWN"
+        data < predictData.referencePrice &&
+        predictData.prediction === "DOWN"
       ) {
         let result = Math.abs(chngPercentage) * 10;
         let finalValue = Math.floor(pointsValue + result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-
+        setisRewardPoint(result)
         setPoints(finalValue);
         setisPrection("Correct");
         //setting win
@@ -180,11 +184,11 @@ const Prediction = () => {
         localStorage.setItem("streak", streakCount);
         setStreak(streakCount);
       } else {
-        let result = chngPercentage * 10;
+        let result = Math.abs(chngPercentage * 10);
         let finalValue = Math.floor(pointsValue - result);
         localStorage.setItem("Points", JSON.stringify(finalValue));
         localStorage.setItem("rewardPoint", result);
-
+        setisRewardPoint(result)
         setPoints(finalValue);
         setisPrection("Wrong");
         //resetting streak back to 0
@@ -199,23 +203,10 @@ const Prediction = () => {
 
       //updating ui using state
 
-      setResult(true);
-      localStorage.setItem("Result", "true");
     } catch (error) {
       console.error(error);
     }
   };
-  //useffect for result data
-  useEffect(() => {
-    let resultData = JSON.parse(localStorage.getItem("resultObj"));
-    let rewardPoint = JSON.parse(localStorage.getItem("rewardPoint"));
-    if (resultData) {
-      setisresultData(resultData);
-    }
-    if (rewardPoint) {
-      setisRewardPoint(rewardPoint);
-    }
-  }, [result]);
 
   //button condition for valid result check
   const isResultAvailable = () => {
@@ -236,10 +227,9 @@ const Prediction = () => {
     localStorage.removeItem("rewardPoint");
     localStorage.removeItem("resultObj");
     localStorage.removeItem("data");
-    localStorage.removeItem("Result");
     setpredictData(null);
-    setResult(false);
     setisresultData(null);
+    setisRewardPoint(null)
   };
 
   return (
