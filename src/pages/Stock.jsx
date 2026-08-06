@@ -60,7 +60,6 @@ const Stock = () => {
       <div className="bg-linear-to-r from-blue-950 to-blue-700 rounded-3xl p-5 sm:p-6 lg:p-8 text-white shadow-xl">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
           <div className="flex items-center gap-5">
-
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold wrap-break-word">
                 {companyInfo?.companyName}
@@ -89,7 +88,7 @@ const Stock = () => {
           </h1>
         </div>
 
-        <div className="h-112.5 rounded-2xl border-2 border-dashed border-gray-300 mt-6 flex items-center justify-center">
+        <div className="w-full rounded-2xl border-2 border-dashed border-gray-300 mt-6 overflow-x-auto">
           <StockChart chartMap={chartData} />
         </div>
       </div>

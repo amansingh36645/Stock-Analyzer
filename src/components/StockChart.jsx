@@ -61,13 +61,13 @@ const StockChart = ({ chartMap }) => {
   }, [chartMap]);
 
   return (
-    <div>
+    <div className="w-full">
       <ReactApexChart
         options={chart.options}
         series={chart.series}
         type="line"
         height={425}
-        width={1375}
+        width="100%"
       />
     </div>
   );
